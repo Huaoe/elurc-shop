@@ -173,8 +173,272 @@ SMTP_PASS=your_smtp_password
 ## 📖 Documentation
 
 - **[Product Requirements Document](/_bmad-output/planning-artifacts/prd.md)** - Complete PRD with 50 FRs, 67 NFRs
+- **[Architecture Document](/_bmad-output/planning-artifacts/architecture.md)** - Complete architecture decisions and patterns
 - **[Brainstorming Session](/_bmad-output/analysis/brainstorming-session-2026-01-12.md)** - Initial ideation and vision
 - **[Workflow Status](/_bmad-output/planning-artifacts/bmm-workflow-status.yaml)** - Project tracking
+
+---
+
+## ⏱️ Project Time Tracking
+
+### Total Time Invested: **0 hours**
+
+*Last Updated: 2026-01-12*
+
+---
+
+### Phase 0: Planning & Architecture
+**Status:** ✅ Complete | **Time:** 0h
+
+#### Epic 0.1: Project Discovery & Requirements
+- **Story 0.1.1**: Brainstorming session and vision definition
+  - Commits: *None yet*
+  - Time: 0h
+  
+- **Story 0.1.2**: Product Requirements Document (PRD)
+  - Commits: *None yet*
+  - Time: 0h
+
+#### Epic 0.2: UX/UI Design
+- **Story 0.2.1**: UX design overview and principles
+  - Commits: *None yet*
+  - Time: 0h
+  
+- **Story 0.2.2**: Information architecture
+  - Commits: *None yet*
+  - Time: 0h
+  
+- **Story 0.2.3**: User flows and wireframes
+  - Commits: *None yet*
+  - Time: 0h
+  
+- **Story 0.2.4**: Design system and accessibility specs
+  - Commits: *None yet*
+  - Time: 0h
+
+#### Epic 0.3: Architecture & Technical Design
+- **Story 0.3.1**: Architecture decisions document
+  - Commits: *None yet*
+  - Time: 0h
+  
+- **Story 0.3.2**: Technology stack selection
+  - Commits: *None yet*
+  - Time: 0h
+
+**Phase 0 Total: 0h**
+
+---
+
+### Phase 1: MVP Development
+**Status:** 🔄 Not Started | **Time:** 0h
+
+#### Epic 1.1: Project Foundation
+- **Story 1.1.1**: Initialize Next.js project with create-next-app
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.1.2**: Set up Supabase database and Prisma ORM
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.1.3**: Configure PayloadCMS with Prisma adapter
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.1.4**: Install Shadcn/UI and configure Tailwind
+  - Commits: *Pending*
+  - Time: 0h
+
+#### Epic 1.2: Product Catalog
+- **Story 1.2.1**: Create Prisma schema for products
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.2.2**: Set up PayloadCMS collections (Products, Categories)
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.2.3**: Build product listing page
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.2.4**: Build product detail page
+  - Commits: *Pending*
+  - Time: 0h
+
+#### Epic 1.3: Shopping Cart
+- **Story 1.3.1**: Create Zustand cart store
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.3.2**: Build cart UI components
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.3.3**: Implement cart persistence (localStorage)
+  - Commits: *Pending*
+  - Time: 0h
+
+#### Epic 1.4: Wallet Integration
+- **Story 1.4.1**: Integrate Phantom wallet SDK
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.4.2**: Create Zustand wallet store
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.4.3**: Build wallet connection UI
+  - Commits: *Pending*
+  - Time: 0h
+
+#### Epic 1.5: Checkout & Payment
+- **Story 1.5.1**: Build checkout flow UI
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.5.2**: Implement QR code generation
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.5.3**: Create payment monitoring API route
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.5.4**: Implement client-side payment polling
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.5.5**: Build payment confirmation UI
+  - Commits: *Pending*
+  - Time: 0h
+
+#### Epic 1.6: Order Management
+- **Story 1.6.1**: Create Prisma schema for orders
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.6.2**: Build order creation API
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.6.3**: Build admin order dashboard
+  - Commits: *Pending*
+  - Time: 0h
+
+#### Epic 1.7: Email Notifications
+- **Story 1.7.1**: Set up Resend email service
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.7.2**: Create React Email templates
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.7.3**: Implement order confirmation emails
+  - Commits: *Pending*
+  - Time: 0h
+
+#### Epic 1.8: Deployment
+- **Story 1.8.1**: Configure Vercel deployment
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.8.2**: Set up environment variables
+  - Commits: *Pending*
+  - Time: 0h
+  
+- **Story 1.8.3**: Deploy to production
+  - Commits: *Pending*
+  - Time: 0h
+
+**Phase 1 Total: 0h**
+
+---
+
+### Phase 2: Growth Features
+**Status:** 📋 Planned | **Time:** 0h
+
+#### Epic 2.1: Enhanced User Experience
+- **Story 2.1.1**: Real-time inventory updates
+  - Commits: *Planned*
+  - Time: 0h
+  
+- **Story 2.1.2**: Advanced filtering and search
+  - Commits: *Planned*
+  - Time: 0h
+  
+- **Story 2.1.3**: Product reviews and ratings
+  - Commits: *Planned*
+  - Time: 0h
+
+#### Epic 2.2: Analytics & Monitoring
+- **Story 2.2.1**: Analytics dashboard for shop manager
+  - Commits: *Planned*
+  - Time: 0h
+  
+- **Story 2.2.2**: Transaction monitoring and alerts
+  - Commits: *Planned*
+  - Time: 0h
+
+#### Epic 2.3: Community Integration
+- **Story 2.3.1**: Telegram feed integration
+  - Commits: *Planned*
+  - Time: 0h
+  
+- **Story 2.3.2**: Customer order history
+  - Commits: *Planned*
+  - Time: 0h
+
+**Phase 2 Total: 0h**
+
+---
+
+### Phase 3: Vision Features
+**Status:** 💭 Future | **Time:** 0h
+
+#### Epic 3.1: DAO Integration
+- **Story 3.1.1**: NFT holder verification
+  - Commits: *Future*
+  - Time: 0h
+  
+- **Story 3.1.2**: Exclusive products for DAO members
+  - Commits: *Future*
+  - Time: 0h
+
+#### Epic 3.2: Multi-Vendor Marketplace
+- **Story 3.2.1**: Vendor onboarding system
+  - Commits: *Future*
+  - Time: 0h
+  
+- **Story 3.2.2**: Multi-vendor product catalog
+  - Commits: *Future*
+  - Time: 0h
+
+#### Epic 3.3: Mobile App
+- **Story 3.3.1**: React Native app development
+  - Commits: *Future*
+  - Time: 0h
+
+**Phase 3 Total: 0h**
+
+---
+
+### 📝 How to Update This Tracking
+
+When completing work, update the relevant story with:
+
+1. **Commit hash(es)**: Add Git commit SHA(s)
+2. **Time spent**: Estimate hours spent on the story
+3. **Status**: Update epic/phase status as needed
+4. **Total hours**: Update phase totals and grand total
+
+**Example:**
+```markdown
+- **Story 1.1.1**: Initialize Next.js project with create-next-app
+  - Commits: `a1b2c3d`, `e4f5g6h`
+  - Time: 2h
+```
 
 ---
 

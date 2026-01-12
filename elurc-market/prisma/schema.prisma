@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Products
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  description   String?
+  price_elurc   Int      // Stored in lamports
+  price_eur     Int      // Stored in cents
+  category_id   String
+  stock         Int      @default(0)
+  in_stock      Boolean  @default(true)
+  images        String[] // Array of image URLs
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  
+  category      Category @relation(fields: [category_id], references: [id])
+  order_items   OrderItem[]
+  
+  @@index([category_id])
+  @@index([slug])
+  @@map("products")
+}
+
+// Categories
+model Category {
+  id         String    @id @default(cuid())
+  name       String
+  slug       String    @unique
+  created_at DateTime  @default(now())
+  
+  products   Product[]
+  
+  @@map("categories")
+}
+
+// Orders
+model Order {
+  id                String      @id @default(cuid())
+  wallet_address    String
+  status            OrderStatus @default(PENDING)
+  total_elurc       Int
+  total_eur         Int
+  shipping_street   String
+  shipping_city     String
+  shipping_postal   String
+  shipping_country  String      @default("France")
+  created_at        DateTime    @default(now())
+  updated_at        DateTime    @updatedAt
+  
+  customer          Customer?   @relation(fields: [wallet_address], references: [wallet_address])
+  order_items       OrderItem[]
+  transactions      Transaction[]
+  
+  @@index([wallet_address])
+  @@index([status])
+  @@map("orders")
+}
+
+// Order Items
+model OrderItem {
+  id          String   @id @default(cuid())
+  order_id    String
+  product_id  String
+  quantity    Int
+  price_elurc Int
+  price_eur   Int
+  
+  order       Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [product_id], references: [id])
+  
+  @@index([order_id])
+  @@index([product_id])
+  @@map("order_items")
+}
+
+// Transactions
+model Transaction {
+  id                String            @id @default(cuid())
+  order_id          String
+  transaction_hash  String            @unique
+  sender_address    String
+  amount_lamports   BigInt
+  status            TransactionStatus @default(PENDING)
+  confirmed_at      DateTime?
+  created_at        DateTime          @default(now())
+  
+  order             Order             @relation(fields: [order_id], references: [id])
+  
+  @@index([order_id])
+  @@index([transaction_hash])
+  @@map("transactions")
+}
+
+// Customers
+model Customer {
+  wallet_address String   @id
+  email          String?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  
+  orders         Order[]
+  
+  @@map("customers")
+}
+
+// Enums
+enum OrderStatus {
+  PENDING
+  PAID
+  FULFILLED
+  CANCELLED
+}
+
+enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+}

@@ -60,7 +60,14 @@ export default function PaymentStep({ shippingData, onBack }: PaymentStepProps) 
             })),
             total: cartTotal,
             customerWallet: publicKey.toBase58(),
-            shippingAddress: shippingData,
+            customerEmail: shippingData.email,
+            shippingAddress: {
+              fullName: shippingData.fullName,
+              streetAddress: shippingData.streetAddress,
+              city: shippingData.city,
+              postalCode: shippingData.postalCode,
+              phoneNumber: shippingData.phoneNumber,
+            },
           }),
         })
 
@@ -124,6 +131,7 @@ export default function PaymentStep({ shippingData, onBack }: PaymentStepProps) 
         {shippingData && (
           <div className="text-sm text-muted-foreground space-y-1">
             <p>{shippingData.fullName}</p>
+            <p>{shippingData.email}</p>
             <p>{shippingData.streetAddress}</p>
             <p>{shippingData.city}, {shippingData.postalCode}</p>
             <p>{shippingData.phoneNumber}</p>

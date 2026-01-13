@@ -10,9 +10,18 @@ export const Products: CollectionConfig = {
   dbName: 'cms_products',
   access: {
     read: () => true,
-    create: ({ req: { user } }) => !!user,
-    update: ({ req: { user } }) => !!user,
-    delete: ({ req: { user } }) => !!user,
+    create: ({ req: { user } }) => {
+      if (!user) return false
+      return (user as any).role === 'admin'
+    },
+    update: ({ req: { user } }) => {
+      if (!user) return false
+      return (user as any).role === 'admin'
+    },
+    delete: ({ req: { user } }) => {
+      if (!user) return false
+      return (user as any).role === 'admin'
+    },
   },
   fields: [
     {
@@ -84,6 +93,26 @@ export const Products: CollectionConfig = {
       defaultValue: 0,
       min: 0,
       label: 'Stock Quantity',
+      hooks: {
+        beforeChange: [
+          ({ value, siblingData }) => {
+            if (value !== undefined) {
+              siblingData.in_stock = value > 0
+            }
+            return value
+          },
+        ],
+      },
+    },
+    {
+      name: 'low_stock_threshold',
+      type: 'number',
+      defaultValue: 5,
+      min: 0,
+      label: 'Low Stock Threshold',
+      admin: {
+        description: 'Alert when stock falls below this number',
+      },
     },
     {
       name: 'in_stock',
@@ -91,7 +120,8 @@ export const Products: CollectionConfig = {
       defaultValue: true,
       label: 'In Stock',
       admin: {
-        description: 'Uncheck to mark product as out of stock',
+        description: 'Automatically updated based on stock quantity',
+        readOnly: true,
       },
     },
     {

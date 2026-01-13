@@ -2,6 +2,7 @@ import { PublicKey } from '@solana/web3.js'
 import { getConnection } from '@/lib/solana/connection'
 import { findMatchingTransaction } from './matcher'
 import { getOrder, updateOrderStatus } from '@/lib/db/orders'
+import { validateTransaction } from '@/lib/solana/validation'
 
 interface PaymentCheckResult {
   status: 'pending' | 'confirmed' | 'timeout' | 'error'
@@ -27,9 +28,9 @@ export async function checkPaymentStatus(
     if (order.status === 'paid') {
       return {
         status: 'confirmed',
-        transactionSignature: order.transactionSignature,
-        amount: order.amount,
-        timestamp: order.paidAt || undefined,
+        transactionSignature: order.transactionSignature || undefined,
+        amount: order.amountElurc,
+        timestamp: order.paidAt ? new Date(order.paidAt).getTime() : undefined,
       }
     }
 
@@ -48,7 +49,8 @@ export async function checkPaymentStatus(
     
     console.log('[Payment Monitor] Checking payment for order:', orderId)
     console.log('[Payment Monitor] Order details:', {
-      amount: order.amount,
+      amountElurc: order.amountElurc,
+      amountEur: order.amountEur,
       customerWallet: order.customerWallet,
       createdAt: new Date(order.createdAt).toISOString(),
     })
@@ -72,9 +74,46 @@ export async function checkPaymentStatus(
 
     if (match) {
       console.log('[Payment Monitor] ✅ Payment matched!', match)
+      
+      // Validate transaction before confirming
+      const validation = await validateTransaction(
+        connection,
+        match.signature,
+        {
+          expectedAmount: order.amountElurc,
+          expectedSender: order.customerWallet,
+          expectedRecipient: shopWallet.toBase58(),
+          expectedTokenMint: process.env.NEXT_PUBLIC_ELURC_TOKEN_ADDRESS!,
+          orderCreatedAt: order.createdAt,
+          toleranceAmount: 9000,
+          maxAgeMinutes: 15,
+        }
+      )
+
+      if (!validation.valid) {
+        console.log('[Payment Monitor] ❌ Validation failed:', validation.errors)
+        return {
+          status: 'error',
+          message: `Transaction validation failed: ${validation.errors.join(', ')}`,
+        }
+      }
+
+      console.log('[Payment Monitor] ✅ Transaction validated successfully')
+      
       await updateOrderStatus(orderId, 'paid', {
         transactionSignature: match.signature,
         paidAt: match.timestamp,
+      })
+
+      // Send order confirmation email asynchronously (non-blocking)
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/email/order-confirmation`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId }),
+      }).catch(error => {
+        console.error('[Payment Monitor] Failed to trigger email:', error)
       })
 
       return {

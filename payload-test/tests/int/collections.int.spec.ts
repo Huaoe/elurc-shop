@@ -296,13 +296,16 @@ describe('PayloadCMS Collections', () => {
       const products = payload.collections['cms_products']
       
       expect(products.config.access.create({ req: { user: null } })).toBe(false)
-      expect(products.config.access.create({ req: { user: { id: '1' } } })).toBe(true)
+      expect(products.config.access.create({ req: { user: { id: '1', role: 'customer' } } })).toBe(false)
+      expect(products.config.access.create({ req: { user: { id: '1', role: 'admin' } } })).toBe(true)
       
       expect(products.config.access.update({ req: { user: null } })).toBe(false)
-      expect(products.config.access.update({ req: { user: { id: '1' } } })).toBe(true)
+      expect(products.config.access.update({ req: { user: { id: '1', role: 'customer' } } })).toBe(false)
+      expect(products.config.access.update({ req: { user: { id: '1', role: 'admin' } } })).toBe(true)
       
       expect(products.config.access.delete({ req: { user: null } })).toBe(false)
-      expect(products.config.access.delete({ req: { user: { id: '1' } } })).toBe(true)
+      expect(products.config.access.delete({ req: { user: { id: '1', role: 'customer' } } })).toBe(false)
+      expect(products.config.access.delete({ req: { user: { id: '1', role: 'admin' } } })).toBe(true)
     })
 
     it('should allow public read access for Categories', () => {
@@ -316,7 +319,16 @@ describe('PayloadCMS Collections', () => {
       const categories = payload.collections['cms_categories']
       
       expect(categories.config.access.create({ req: { user: null } })).toBe(false)
-      expect(categories.config.access.create({ req: { user: { id: '1' } } })).toBe(true)
+      expect(categories.config.access.create({ req: { user: { id: '1', role: 'customer' } } })).toBe(false)
+      expect(categories.config.access.create({ req: { user: { id: '1', role: 'admin' } } })).toBe(true)
+      
+      expect(categories.config.access.update({ req: { user: null } })).toBe(false)
+      expect(categories.config.access.update({ req: { user: { id: '1', role: 'customer' } } })).toBe(false)
+      expect(categories.config.access.update({ req: { user: { id: '1', role: 'admin' } } })).toBe(true)
+      
+      expect(categories.config.access.delete({ req: { user: null } })).toBe(false)
+      expect(categories.config.access.delete({ req: { user: { id: '1', role: 'customer' } } })).toBe(false)
+      expect(categories.config.access.delete({ req: { user: { id: '1', role: 'admin' } } })).toBe(true)
     })
 
     it('should allow public read access for Media', () => {

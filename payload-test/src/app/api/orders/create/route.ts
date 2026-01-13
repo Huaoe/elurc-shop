@@ -5,9 +5,9 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
 
-    const { items, total, customerWallet, shippingAddress } = body
+    const { items, total, customerWallet, customerEmail, shippingAddress } = body
 
-    if (!items || !total || !customerWallet || !shippingAddress) {
+    if (!items || !total || !customerWallet || !customerEmail || !shippingAddress) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
       items,
       total,
       customerWallet,
+      customerEmail,
       shippingAddress,
     })
 

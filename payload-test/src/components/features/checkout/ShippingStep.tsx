@@ -46,6 +46,22 @@ export default function ShippingStep({ initialData, onSubmit, onBack }: Shipping
         </div>
 
         <div>
+          <Label htmlFor="email">Email Address *</Label>
+          <Input
+            id="email"
+            type="email"
+            {...register('email')}
+            placeholder="john.doe@example.com"
+            className="mt-1"
+          />
+          {errors.email && (
+            <p className="text-sm text-destructive mt-1">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+
+        <div>
           <Label htmlFor="streetAddress">Street Address *</Label>
           <Input
             id="streetAddress"

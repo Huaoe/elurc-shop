@@ -4,14 +4,27 @@ export const Orders: CollectionConfig = {
   slug: 'orders',
   admin: {
     useAsTitle: 'orderNumber',
-    defaultColumns: ['orderNumber', 'status', 'customerWallet', 'amountElurc', 'createdAt'],
+    defaultColumns: ['orderNumber', 'status', 'customerEmail', 'amountElurc', 'createdAt'],
     group: 'Commerce',
+    listSearchableFields: ['orderNumber', 'customerEmail', 'customerWallet', 'transactionSignature'],
+    pagination: {
+      defaultLimit: 20,
+    },
   },
   access: {
-    read: ({ req: { user } }) => !!user,
+    read: ({ req: { user } }) => {
+      if (!user) return false
+      return (user as any).role === 'admin'
+    },
     create: () => true,
-    update: ({ req: { user } }) => !!user,
-    delete: ({ req: { user } }) => !!user,
+    update: ({ req: { user } }) => {
+      if (!user) return false
+      return (user as any).role === 'admin'
+    },
+    delete: ({ req: { user } }) => {
+      if (!user) return false
+      return (user as any).role === 'admin'
+    },
   },
   fields: [
     {
@@ -66,6 +79,15 @@ export const Orders: CollectionConfig = {
       label: 'Customer Wallet Address',
       admin: {
         description: 'Solana wallet public key',
+      },
+    },
+    {
+      name: 'customerEmail',
+      type: 'email',
+      required: true,
+      label: 'Customer Email',
+      admin: {
+        description: 'Email address for order confirmation',
       },
     },
     {
@@ -164,6 +186,102 @@ export const Orders: CollectionConfig = {
         readOnly: true,
       },
     },
+    {
+      name: 'fulfilledAt',
+      type: 'date',
+      label: 'Fulfilled At',
+      admin: {
+        description: 'Timestamp when order was marked as fulfilled',
+      },
+    },
+    {
+      name: 'trackingNumber',
+      type: 'text',
+      label: 'Tracking Number',
+      admin: {
+        description: 'Shipping tracking number',
+      },
+    },
+    {
+      name: 'statusHistory',
+      type: 'array',
+      label: 'Status History',
+      admin: {
+        description: 'Timeline of all status changes',
+        readOnly: true,
+      },
+      fields: [
+        {
+          name: 'status',
+          type: 'text',
+          required: true,
+          label: 'Status',
+        },
+        {
+          name: 'timestamp',
+          type: 'date',
+          required: true,
+          label: 'Timestamp',
+        },
+        {
+          name: 'changedBy',
+          type: 'select',
+          options: [
+            { label: 'System', value: 'system' },
+            { label: 'Admin', value: 'admin' },
+          ],
+          label: 'Changed By',
+        },
+        {
+          name: 'reason',
+          type: 'text',
+          label: 'Reason',
+        },
+      ],
+    },
+    {
+      name: 'adminNotes',
+      type: 'textarea',
+      label: 'Admin Notes',
+      admin: {
+        description: 'Internal notes for order management',
+      },
+      access: {
+        read: ({ req: { user } }) => (user as any)?.role === 'admin',
+        update: ({ req: { user } }) => (user as any)?.role === 'admin',
+      },
+    },
   ],
   timestamps: true,
+  hooks: {
+    beforeChange: [
+      ({ data, operation, originalDoc, req }) => {
+        if (operation === 'create') {
+          data.statusHistory = [
+            {
+              status: data.status || 'pending',
+              timestamp: new Date().toISOString(),
+              changedBy: 'system',
+            },
+          ]
+        }
+
+        if (operation === 'update' && originalDoc && data.status !== originalDoc.status) {
+          const statusHistory = data.statusHistory || originalDoc.statusHistory || []
+          statusHistory.push({
+            status: data.status,
+            timestamp: new Date().toISOString(),
+            changedBy: req.user ? 'admin' : 'system',
+          })
+          data.statusHistory = statusHistory
+        }
+
+        if (operation === 'update' && data.status === 'fulfilled' && !data.fulfilledAt) {
+          data.fulfilledAt = new Date().toISOString()
+        }
+
+        return data
+      },
+    ],
+  },
 }

@@ -2,7 +2,7 @@ import { Connection, ParsedTransactionWithMeta, PublicKey } from '@solana/web3.j
 
 interface Order {
   id: string
-  amount: number
+  amountElurc: number
   customerWallet: string
   createdAt: number
 }
@@ -26,7 +26,7 @@ export async function findMatchingTransaction(
   console.log('  - Token mint:', elurTokenMint.toBase58())
   console.log('  - Customer wallet:', customerWallet.toBase58())
   console.log('  - Shop wallet:', shopWallet.toBase58())
-  console.log('  - Expected amount:', order.amount)
+  console.log('  - Expected amount:', order.amountElurc)
   console.log('  - Order created at:', new Date(order.createdAt).toISOString())
 
   const relevantSignatures = signatures.filter(sig => {
@@ -68,11 +68,11 @@ export async function findMatchingTransaction(
         continue
       }
 
-      const amountDiff = Math.abs(tokenTransfer.amount - order.amount)
+      const amountDiff = Math.abs(tokenTransfer.amount - order.amountElurc)
       const tolerance = 9000
       
       console.log('  ✓ Sender matches!')
-      console.log('  Amount check:', tokenTransfer.amount, 'vs', order.amount, '(diff:', amountDiff, ')')
+      console.log('  Amount check:', tokenTransfer.amount, 'vs', order.amountElurc, '(diff:', amountDiff, ')')
       
       if (amountDiff <= tolerance) {
         console.log('  ✅ MATCH FOUND!')

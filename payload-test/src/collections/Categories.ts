@@ -9,9 +9,18 @@ export const Categories: CollectionConfig = {
   dbName: 'cms_categories',
   access: {
     read: () => true,
-    create: ({ req: { user } }) => !!user,
-    update: ({ req: { user } }) => !!user,
-    delete: ({ req: { user } }) => !!user,
+    create: ({ req: { user } }) => {
+      if (!user) return false
+      return (user as any).role === 'admin'
+    },
+    update: ({ req: { user } }) => {
+      if (!user) return false
+      return (user as any).role === 'admin'
+    },
+    delete: ({ req: { user } }) => {
+      if (!user) return false
+      return (user as any).role === 'admin'
+    },
   },
   fields: [
     {
@@ -38,6 +47,14 @@ export const Categories: CollectionConfig = {
             return value
           },
         ],
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Description',
+      admin: {
+        description: 'Optional category description',
       },
     },
   ],

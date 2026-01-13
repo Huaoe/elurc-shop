@@ -15,6 +15,7 @@ interface CreateOrderParams {
     eur: number
   }
   customerWallet: string
+  customerEmail: string
   shippingAddress: {
     fullName: string
     streetAddress: string
@@ -35,6 +36,7 @@ export async function createOrder(params: CreateOrderParams) {
       amountElurc: params.total.elurc,
       amountEur: params.total.eur,
       customerWallet: params.customerWallet,
+      customerEmail: params.customerEmail,
       shippingAddress: params.shippingAddress,
       items: params.items,
       createdAt: new Date().toISOString(),
@@ -57,6 +59,7 @@ export async function getOrder(orderId: string) {
     const order = await payload.findByID({
       collection: 'orders',
       id: orderId,
+      depth: 2,
     })
 
     if (!order) return null
@@ -65,11 +68,15 @@ export async function getOrder(orderId: string) {
       id: order.id,
       orderNumber: order.orderNumber,
       status: order.status,
-      amount: order.amountElurc,
+      amountElurc: order.amountElurc,
+      amountEur: order.amountEur,
       customerWallet: order.customerWallet,
+      customerEmail: order.customerEmail,
       shippingAddress: order.shippingAddress,
-      transactionSignature: order.transactionSignature,
-      paidAt: order.paidAt ? new Date(order.paidAt).getTime() : null,
+      items: order.items,
+      transactionSignature: order.transactionSignature || null,
+      paidAt: order.paidAt || null,
+      statusHistory: order.statusHistory || [],
       createdAt: new Date(order.createdAt).getTime(),
     }
   } catch (error) {

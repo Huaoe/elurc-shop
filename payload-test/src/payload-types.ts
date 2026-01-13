@@ -128,7 +128,8 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
-  name?: string | null;
+  name: string;
+  role: 'admin' | 'customer';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -200,6 +201,10 @@ export interface CmsCategory {
   id: number;
   name: string;
   slug: string;
+  /**
+   * Optional category description
+   */
+  description?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -226,7 +231,11 @@ export interface CmsProduct {
   category: number | CmsCategory;
   stock: number;
   /**
-   * Uncheck to mark product as out of stock
+   * Alert when stock falls below this number
+   */
+  low_stock_threshold?: number | null;
+  /**
+   * Automatically updated based on stock quantity
    */
   in_stock?: boolean | null;
   images?:
@@ -258,6 +267,10 @@ export interface Order {
    * Solana wallet public key
    */
   customerWallet: string;
+  /**
+   * Email address for order confirmation
+   */
+  customerEmail: string;
   shippingAddress: {
     fullName: string;
     streetAddress: string;
@@ -282,6 +295,30 @@ export interface Order {
    * Timestamp when payment was confirmed
    */
   paidAt?: string | null;
+  /**
+   * Timestamp when order was marked as fulfilled
+   */
+  fulfilledAt?: string | null;
+  /**
+   * Shipping tracking number
+   */
+  trackingNumber?: string | null;
+  /**
+   * Timeline of all status changes
+   */
+  statusHistory?:
+    | {
+        status: string;
+        timestamp: string;
+        changedBy?: ('system' | 'admin') | null;
+        reason?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Internal notes for order management
+   */
+  adminNotes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -377,6 +414,7 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -453,6 +491,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface CmsCategoriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -468,6 +507,7 @@ export interface CmsProductsSelect<T extends boolean = true> {
   price_eur?: T;
   category?: T;
   stock?: T;
+  low_stock_threshold?: T;
   in_stock?: T;
   images?:
     | T
@@ -488,6 +528,7 @@ export interface OrdersSelect<T extends boolean = true> {
   amountElurc?: T;
   amountEur?: T;
   customerWallet?: T;
+  customerEmail?: T;
   shippingAddress?:
     | T
     | {
@@ -512,6 +553,18 @@ export interface OrdersSelect<T extends boolean = true> {
       };
   transactionSignature?: T;
   paidAt?: T;
+  fulfilledAt?: T;
+  trackingNumber?: T;
+  statusHistory?:
+    | T
+    | {
+        status?: T;
+        timestamp?: T;
+        changedBy?: T;
+        reason?: T;
+        id?: T;
+      };
+  adminNotes?: T;
   updatedAt?: T;
   createdAt?: T;
 }

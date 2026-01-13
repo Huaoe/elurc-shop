@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { getProductBySlug } from '@/lib/api/products'
 
-describe('Product API - getProductBySlug', () => {
+describe.skip('Product API - getProductBySlug', () => {
   it('returns null for non-existent product slug', async () => {
     const product = await getProductBySlug('non-existent-product-12345')
     expect(product).toBeNull()

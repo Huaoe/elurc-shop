@@ -55,6 +55,14 @@ export const Header = ({
           >
             Cart
           </Link>
+          {connected && (
+            <Link
+              href="/orders"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Orders
+            </Link>
+          )}
         </nav>
 
         {/* Right Side Actions */}

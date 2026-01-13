@@ -103,20 +103,20 @@ gantt
     title ELURC Market Development Timeline
     dateFormat YYYY-MM-DD
     section Foundation
-    Epic 1: Foundation & Design    :done, epic1, 2026-01-12, 2d
-    Epic 2: Product Catalog        :done, epic2, 2026-01-13, 2d
+    Epic 1 Foundation & Design    :done, epic1, 2026-01-12, 2d
+    Epic 2 Product Catalog        :done, epic2, 2026-01-13, 2d
     section Core Features
-    Epic 3: Cart & Wallet          :done, epic3, 2026-01-14, 2d
-    Epic 4: Checkout & Payment     :done, epic4, 2026-01-15, 3d
-    Epic 5: Admin Panel            :done, epic5, 2026-01-16, 2d
-    Epic 6: Edge Cases & Polish    :done, epic6, 2026-01-17, 2d
+    Epic 3 Cart & Wallet          :done, epic3, 2026-01-14, 2d
+    Epic 4 Checkout & Payment     :done, epic4, 2026-01-15, 3d
+    Epic 5 Admin Panel            :done, epic5, 2026-01-16, 2d
+    Epic 6 Edge Cases & Polish    :done, epic6, 2026-01-17, 2d
     section Deployment
-    Epic 7: Deploy to Render.com   :done, epic7, 2026-01-13, 1d
+    Epic 7 Deploy to Render       :done, epic7, 2026-01-13, 1d
     section Growth
-    First 10 Users                 :growth1, 2026-01-20, 1M
-    Feature Enhancements           :growth2, 2026-02-20, 2M
+    First 10 Users                :growth1, 2026-01-20, 30d
+    Feature Enhancements          :growth2, 2026-02-20, 60d
     section Vision
-    50+ Users & Expansion          :vision1, 2026-04-20, 6M
+    50+ Users & Expansion         :vision1, 2026-04-20, 180d
 ```
 
 ### 🎯 Success Metrics

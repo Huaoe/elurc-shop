@@ -8,9 +8,10 @@ import EmptyCategoryState from '@/components/features/products/EmptyCategoryStat
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: { category?: string }
+  searchParams: Promise<{ category?: string }>
 }): Promise<Metadata> {
-  const category = searchParams.category || 'all'
+  const params = await searchParams
+  const category = params.category || 'all'
   const categories = await getCategories()
   const currentCategory = categories.find(cat => cat.slug === category)
   
@@ -35,9 +36,10 @@ export async function generateMetadata({
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: { category?: string }
+  searchParams: Promise<{ category?: string }>
 }) {
-  const category = searchParams.category || 'all'
+  const params = await searchParams
+  const category = params.category || 'all'
   const [products, categories] = await Promise.all([
     getProducts(category),
     getCategories(),

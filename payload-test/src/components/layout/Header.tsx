@@ -44,12 +44,6 @@ export const Header = ({
         {/* Desktop Navigation - Hidden on mobile */}
         <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
           <Link
-            href="/"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Home
-          </Link>
-          <Link
             href="/products"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >

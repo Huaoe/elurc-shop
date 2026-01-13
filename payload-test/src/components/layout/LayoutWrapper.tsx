@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Header } from "./Header"
 import { Navigation } from "./Navigation"
 import { Footer } from "./Footer"
@@ -12,17 +12,21 @@ interface LayoutWrapperProps {
 
 export const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { itemCount } = useCart()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <>
       <Header
-        cartItemCount={itemCount}
-        walletConnected={false}
+        cartItemCount={mounted ? itemCount : 0}
         onMenuClick={() => setMobileMenuOpen(true)}
       />
       <Navigation
-        cartItemCount={itemCount}
+        cartItemCount={mounted ? itemCount : 0}
         open={mobileMenuOpen}
         onOpenChange={setMobileMenuOpen}
       />

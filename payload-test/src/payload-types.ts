@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     cms_categories: CmsCategory;
     cms_products: CmsProduct;
+    orders: Order;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     cms_categories: CmsCategoriesSelect<false> | CmsCategoriesSelect<true>;
     cms_products: CmsProductsSelect<false> | CmsProductsSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -238,6 +240,53 @@ export interface CmsProduct {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  orderNumber: string;
+  status: 'pending' | 'paid' | 'processing' | 'fulfilled' | 'cancelled' | 'timeout';
+  /**
+   * Total amount in ELURC tokens (lamports)
+   */
+  amountElurc: number;
+  /**
+   * Total amount in euros (cents)
+   */
+  amountEur: number;
+  /**
+   * Solana wallet public key
+   */
+  customerWallet: string;
+  shippingAddress: {
+    fullName: string;
+    streetAddress: string;
+    city: string;
+    postalCode: string;
+    phoneNumber: string;
+  };
+  items: {
+    product: number | CmsProduct;
+    quantity: number;
+    priceSnapshot: {
+      elurc: number;
+      eur: number;
+    };
+    id?: string | null;
+  }[];
+  /**
+   * Solana transaction signature
+   */
+  transactionSignature?: string | null;
+  /**
+   * Timestamp when payment was confirmed
+   */
+  paidAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -275,6 +324,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'cms_products';
         value: number | CmsProduct;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: number | Order;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -422,6 +475,43 @@ export interface CmsProductsSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  orderNumber?: T;
+  status?: T;
+  amountElurc?: T;
+  amountEur?: T;
+  customerWallet?: T;
+  shippingAddress?:
+    | T
+    | {
+        fullName?: T;
+        streetAddress?: T;
+        city?: T;
+        postalCode?: T;
+        phoneNumber?: T;
+      };
+  items?:
+    | T
+    | {
+        product?: T;
+        quantity?: T;
+        priceSnapshot?:
+          | T
+          | {
+              elurc?: T;
+              eur?: T;
+            };
+        id?: T;
+      };
+  transactionSignature?: T;
+  paidAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

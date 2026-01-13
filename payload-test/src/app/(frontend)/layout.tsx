@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { LayoutWrapper } from "@/components/layout/LayoutWrapper";
+import { WalletProviders } from "@/components/providers/WalletProviders";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
-        <LayoutWrapper>{children}</LayoutWrapper>
+        <WalletProviders>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </WalletProviders>
       </body>
     </html>
   );

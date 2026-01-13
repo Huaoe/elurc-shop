@@ -32,52 +32,58 @@ describe('Cart Store', () => {
   }
 
   it('adds item to cart', () => {
-    const { addItem, items } = useCartStore.getState()
+    const { addItem } = useCartStore.getState()
     addItem(mockProduct, 2)
     
+    const { items } = useCartStore.getState()
     expect(items).toHaveLength(1)
     expect(items[0].quantity).toBe(2)
     expect(items[0].product.id).toBe('1')
   })
 
   it('updates quantity for existing item', () => {
-    const { addItem, items } = useCartStore.getState()
+    const { addItem } = useCartStore.getState()
     addItem(mockProduct, 2)
     addItem(mockProduct, 3)
     
+    const { items } = useCartStore.getState()
     expect(items).toHaveLength(1)
     expect(items[0].quantity).toBe(5)
   })
 
   it('removes item from cart', () => {
-    const { addItem, removeItem, items } = useCartStore.getState()
+    const { addItem, removeItem } = useCartStore.getState()
     addItem(mockProduct, 2)
     removeItem('1')
     
+    const { items } = useCartStore.getState()
     expect(items).toHaveLength(0)
   })
 
   it('updates item quantity', () => {
-    const { addItem, updateQuantity, items } = useCartStore.getState()
+    const { addItem, updateQuantity } = useCartStore.getState()
     addItem(mockProduct, 2)
     updateQuantity('1', 5)
     
+    const { items } = useCartStore.getState()
     expect(items[0].quantity).toBe(5)
   })
 
   it('enforces maximum quantity based on stock', () => {
-    const { addItem, updateQuantity, items } = useCartStore.getState()
+    const { addItem, updateQuantity } = useCartStore.getState()
     addItem(mockProduct, 2)
     updateQuantity('1', 20)
     
+    const { items } = useCartStore.getState()
     expect(items[0].quantity).toBe(10)
   })
 
   it('prevents quantity below 1', () => {
-    const { addItem, updateQuantity, items } = useCartStore.getState()
+    const { addItem, updateQuantity } = useCartStore.getState()
     addItem(mockProduct, 2)
     updateQuantity('1', 0)
     
+    const { items } = useCartStore.getState()
     expect(items[0].quantity).toBe(2)
   })
 
@@ -109,34 +115,37 @@ describe('Cart Store', () => {
   })
 
   it('clears cart', () => {
-    const { addItem, clearCart, items } = useCartStore.getState()
+    const { addItem, clearCart } = useCartStore.getState()
     addItem(mockProduct, 2)
     addItem(mockProduct2, 3)
     clearCart()
     
+    const { items } = useCartStore.getState()
     expect(items).toHaveLength(0)
   })
 
   it('stores price snapshot', () => {
-    const { addItem, items } = useCartStore.getState()
+    const { addItem } = useCartStore.getState()
     addItem(mockProduct, 1)
     
+    const { items } = useCartStore.getState()
     expect(items[0].priceSnapshot.elurc).toBe(1000000)
     expect(items[0].priceSnapshot.eur).toBe(300)
   })
 
   it('stores addedAt timestamp', () => {
-    const { addItem, items } = useCartStore.getState()
+    const { addItem } = useCartStore.getState()
     const before = Date.now()
     addItem(mockProduct, 1)
     const after = Date.now()
     
+    const { items } = useCartStore.getState()
     expect(items[0].addedAt).toBeGreaterThanOrEqual(before)
     expect(items[0].addedAt).toBeLessThanOrEqual(after)
   })
 
   it('updates lastUpdated on cart changes', () => {
-    const { addItem, lastUpdated } = useCartStore.getState()
+    const { addItem } = useCartStore.getState()
     const before = Date.now()
     addItem(mockProduct, 1)
     const state = useCartStore.getState()

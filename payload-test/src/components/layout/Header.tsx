@@ -4,20 +4,20 @@ import Link from "next/link"
 import { ShoppingCart, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useWallet } from "@solana/wallet-adapter-react"
+import WalletButton from "@/components/features/wallet/WalletButton"
+import ConnectedWallet from "@/components/features/wallet/ConnectedWallet"
 
 interface HeaderProps {
   cartItemCount?: number
-  walletConnected?: boolean
-  walletAddress?: string
   onMenuClick?: () => void
 }
 
 export const Header = ({
   cartItemCount = 0,
-  walletConnected = false,
-  walletAddress,
   onMenuClick,
 }: HeaderProps) => {
+  const { connected } = useWallet()
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-max-width items-center justify-between px-4 md:h-18">
@@ -80,16 +80,8 @@ export const Header = ({
             </Button>
           </Link>
 
-          {/* Wallet Connection Button */}
-          <Button
-            variant={walletConnected ? "secondary" : "default"}
-            size="sm"
-            className="hidden md:inline-flex"
-          >
-            {walletConnected && walletAddress
-              ? `${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}`
-              : "Connect Wallet"}
-          </Button>
+          {/* Wallet Connection */}
+          {connected ? <ConnectedWallet /> : <WalletButton />}
         </div>
       </div>
     </header>

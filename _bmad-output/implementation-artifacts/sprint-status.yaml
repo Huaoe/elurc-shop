@@ -99,7 +99,7 @@ development_status:
   epic-6: in-progress
   6-1-overpayment-underpayment-handling: review
   6-2-refund-interface: review
-  6-3-payment-timeout-handling: ready-for-dev
+  6-3-payment-timeout-handling: in-progress
   6-4-error-states-messages: ready-for-dev
   6-5-loading-states: ready-for-dev
   6-6-accessibility-audit: ready-for-dev
@@ -107,14 +107,14 @@ development_status:
   epic-6-retrospective: optional
 
   # Epic 7: Deployment to Render.com
-  epic-7: ready-for-dev
-  7-1-environment-configuration-setup: ready-for-dev
-  7-2-database-migration-setup: ready-for-dev
-  7-3-render-service-configuration: ready-for-dev
-  7-4-payloadcms-deployment: ready-for-dev
-  7-5-ssl-https-domain-setup: ready-for-dev
-  7-6-monitoring-logging-setup: ready-for-dev
-  7-7-deployment-validation-smoke-tests: ready-for-dev
-  7-8-deployment-documentation: ready-for-dev
-  7-9-poc-deployed: ready-for-dev
+  epic-7: done
+  7-1-environment-configuration-setup: done
+  7-2-database-migration-setup: done
+  7-3-render-service-configuration: done
+  7-4-payloadcms-deployment: done
+  7-5-ssl-https-domain-setup: done
+  7-6-monitoring-logging-setup: done
+  7-7-deployment-validation-smoke-tests: done
+  7-8-deployment-documentation: done
+  7-9-poc-deployed: done
   epic-7-retrospective: optional

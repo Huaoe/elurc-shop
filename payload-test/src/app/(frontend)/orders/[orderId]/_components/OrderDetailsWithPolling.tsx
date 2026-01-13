@@ -31,7 +31,7 @@ export default function OrderDetailsWithPolling({
       setNotification({ newStatus, oldStatus })
       setTimeout(() => {
         window.location.reload()
-      }, 1000)
+      }, 5000)
     },
   })
 

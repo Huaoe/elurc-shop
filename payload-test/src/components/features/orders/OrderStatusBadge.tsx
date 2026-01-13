@@ -11,6 +11,7 @@ type OrderStatus = 'pending' | 'paid' | 'processing' | 'fulfilled' | 'cancelled'
 
 interface OrderStatusBadgeProps {
   status: OrderStatus
+  isPolling?: boolean
 }
 
 const statusConfig = {
@@ -52,13 +53,16 @@ const statusConfig = {
   },
 }
 
-export default function OrderStatusBadge({ status }: OrderStatusBadgeProps) {
+export default function OrderStatusBadge({ status, isPolling = false }: OrderStatusBadgeProps) {
   const config = statusConfig[status]
   const Icon = config.icon
+  const shouldAnimate = status === 'pending' && isPolling
 
   return (
     <Badge variant={config.variant} className={config.className}>
-      <Icon className="h-3 w-3 mr-1" />
+      <Icon 
+        className={`h-3 w-3 mr-1 ${shouldAnimate ? 'animate-pulse' : ''}`}
+      />
       {config.label}
     </Badge>
   )

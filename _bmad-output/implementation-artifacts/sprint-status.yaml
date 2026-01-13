@@ -98,7 +98,7 @@ development_status:
   # Epic 6: Edge Cases & Polish
   epic-6: in-progress
   6-1-overpayment-underpayment-handling: review
-  6-2-refund-interface: in-progress
+  6-2-refund-interface: review
   6-3-payment-timeout-handling: ready-for-dev
   6-4-error-states-messages: ready-for-dev
   6-5-loading-states: ready-for-dev

@@ -8,12 +8,14 @@ interface OrderDetailsHeaderProps {
   orderNumber: string
   status: 'pending' | 'paid' | 'processing' | 'fulfilled' | 'cancelled' | 'timeout'
   createdAt: number
+  isPolling?: boolean
 }
 
 export default function OrderDetailsHeader({
   orderNumber,
   status,
   createdAt,
+  isPolling = false,
 }: OrderDetailsHeaderProps) {
   const orderDate = new Date(createdAt)
   const timeAgo = formatDistance(orderDate, new Date(), { addSuffix: true })
@@ -39,7 +41,7 @@ export default function OrderDetailsHeader({
           </p>
         </div>
 
-        <OrderStatusBadge status={status} />
+        <OrderStatusBadge status={status} isPolling={isPolling} />
       </div>
 
       <nav className="text-sm text-muted-foreground">

@@ -72,6 +72,7 @@ export interface Config {
     cms_categories: CmsCategory;
     cms_products: CmsProduct;
     orders: Order;
+    refunds: Refund;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +85,7 @@ export interface Config {
     cms_categories: CmsCategoriesSelect<false> | CmsCategoriesSelect<true>;
     cms_products: CmsProductsSelect<false> | CmsProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    refunds: RefundsSelect<false> | RefundsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -361,6 +363,65 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "refunds".
+ */
+export interface Refund {
+  id: number;
+  refundNumber: string;
+  /**
+   * The order this refund is associated with
+   */
+  order: number | Order;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+  /**
+   * Amount to refund in ELURC tokens (lamports)
+   */
+  amount: number;
+  /**
+   * Solana wallet address to send refund to
+   */
+  walletAddress: string;
+  /**
+   * Reason for the refund
+   */
+  reason?: string | null;
+  /**
+   * Solana transaction signature for the refund
+   */
+  transactionSignature?: string | null;
+  /**
+   * Timestamp when refund was processed
+   */
+  processedAt?: string | null;
+  /**
+   * Timestamp when refund was completed
+   */
+  completedAt?: string | null;
+  /**
+   * Timestamp when refund failed
+   */
+  failedAt?: string | null;
+  /**
+   * Error message if refund failed
+   */
+  errorMessage?: string | null;
+  /**
+   * Admin user who processed the refund
+   */
+  processedBy?: (number | null) | User;
+  /**
+   * Internal notes about the refund
+   */
+  adminNotes?: string | null;
+  /**
+   * IP address of the admin who initiated the refund
+   */
+  ipAddress?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -402,6 +463,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'orders';
         value: number | Order;
+      } | null)
+    | ({
+        relationTo: 'refunds';
+        value: number | Refund;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -622,6 +687,28 @@ export interface OrdersSelect<T extends boolean = true> {
         id?: T;
       };
   adminNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "refunds_select".
+ */
+export interface RefundsSelect<T extends boolean = true> {
+  refundNumber?: T;
+  order?: T;
+  status?: T;
+  amount?: T;
+  walletAddress?: T;
+  reason?: T;
+  transactionSignature?: T;
+  processedAt?: T;
+  completedAt?: T;
+  failedAt?: T;
+  errorMessage?: T;
+  processedBy?: T;
+  adminNotes?: T;
+  ipAddress?: T;
   updatedAt?: T;
   createdAt?: T;
 }

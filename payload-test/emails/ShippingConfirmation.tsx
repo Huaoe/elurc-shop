@@ -4,7 +4,6 @@ import {
   Head,
   Heading,
   Html,
-  Link,
   Preview,
   Section,
   Text,
@@ -34,14 +33,14 @@ export const ShippingConfirmationEmail = ({
         {trackingNumber && (
           <Section style={trackingSection}>
             <Text style={trackingLabel}>Tracking Number:</Text>
-            <Text style={trackingNumber}>{trackingNumber}</Text>
+            <Text style={trackingNumberStyle}>{trackingNumber}</Text>
           </Section>
         )}
         <Text style={text}>
           You should receive your order within 3-7 business days depending on your location.
         </Text>
         <Text style={text}>
-          If you have any questions about your order, please don't hesitate to contact us.
+          If you have any questions about your order, please don&apos;t hesitate to contact us.
         </Text>
         <Text style={footer}>
           Thank you for shopping with ELURC Market!
@@ -97,7 +96,7 @@ const trackingLabel = {
   margin: '0 0 8px 0',
 }
 
-const trackingNumber = {
+const trackingNumberStyle = {
   color: '#333',
   fontSize: '18px',
   fontFamily: 'monospace',

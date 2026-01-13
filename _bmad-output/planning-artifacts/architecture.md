@@ -243,16 +243,16 @@ npx create-next-app@latest elurc-market --typescript --tailwind --app --src-dir 
 
 ### Data Architecture
 
-**Database: Supabase PostgreSQL**
-- **Version:** Latest stable (PostgreSQL 15+)
-- **Rationale:** Free tier sufficient for POC (500 MB database, 2 GB bandwidth/month), scales to production, includes bonus features (auth, storage, real-time) for future use
+**Database: Prisma Postgres**
+- **Version:** PostgreSQL 15+ (managed by Prisma)
+- **Rationale:** Serverless PostgreSQL that scales to zero, instant provisioning with zero configuration, automatic connection pooling, generous free tier, seamless integration with Prisma ORM
 - **Use Cases:**
   - PayloadCMS data storage (products, categories, inventory)
   - Order and transaction records
   - Customer shipping information
   - Admin user accounts
-- **Hosting:** Supabase cloud (managed PostgreSQL)
-- **Connection:** Pooled connections via Supabase connection string
+- **Hosting:** Prisma Cloud (managed PostgreSQL on bare metal)
+- **Connection:** Automatic connection pooling, scales to zero when idle
 
 **ORM: Prisma**
 - **Version:** 7.2.0 (latest stable)
@@ -263,7 +263,7 @@ npx create-next-app@latest elurc-market --typescript --tailwind --app --src-dir 
   - Migration system for version control
   - Relation management
   - Query optimization
-- **Integration:** Works seamlessly with Supabase PostgreSQL and PayloadCMS
+- **Integration:** Works seamlessly with Prisma Postgres and PayloadCMS
 
 **Data Validation:**
 - **Schema Level:** Prisma schema with strict types
@@ -414,16 +414,16 @@ npx create-next-app@latest elurc-market --typescript --tailwind --app --src-dir 
 - **Features:** Automatic deployments, preview deployments, edge functions, analytics
 - **Regions:** Auto-selected based on user location
 
-**Database: Supabase**
-- **Hosting:** Supabase cloud (managed PostgreSQL)
-- **Plan:** Free tier for POC, scale to Pro when needed
-- **Backup:** Automatic daily backups via Supabase
+**Database: Prisma Postgres**
+- **Hosting:** Prisma Cloud (managed PostgreSQL)
+- **Plan:** Free tier with usage-based pricing, scales automatically
+- **Backup:** Automated backups, encryption at rest and in transit
 
 **Environment Configuration:**
 - **Development:** `.env.local` (not committed to Git)
 - **Production:** Vercel environment variables
 - **Required Variables:**
-  - `DATABASE_URL` - Supabase connection string
+  - `DATABASE_URL` - Prisma Postgres connection string
   - `SOLANA_RPC_URL` - Infura/Alchemy Solana RPC endpoint
   - `SHOP_WALLET_ADDRESS` - Public address for receiving ELURC
   - `SHOP_WALLET_PRIVATE_KEY` - Private key for refunds (server-side only)
@@ -445,12 +445,12 @@ npx create-next-app@latest elurc-market --typescript --tailwind --app --src-dir 
 - **Application Logs:** Vercel logs (automatic)
 - **Error Tracking:** Vercel Analytics (included in Pro plan)
 - **Performance:** Vercel Speed Insights
-- **Database:** Supabase dashboard metrics
+- **Database:** Prisma Studio and Prisma Cloud dashboard metrics
 
 **Scaling Strategy:**
-- **MVP (10 users):** Free/Pro tiers sufficient
-- **Growth (50 users):** Monitor Supabase usage, upgrade if needed
-- **Future:** Vercel auto-scales, Supabase connection pooling handles load
+- **MVP (10 users):** Free tier sufficient, scales to zero when idle
+- **Growth (50 users):** Usage-based pricing scales automatically with traffic
+- **Future:** Vercel auto-scales, Prisma Postgres automatic connection pooling and serverless scaling
 
 ### Email Service Integration
 
@@ -482,7 +482,7 @@ import { Html, Head, Body, Container, Text } from '@react-email/components'
 
 **Implementation Sequence:**
 1. **Foundation:** Initialize Next.js project with create-next-app
-2. **Database:** Set up Supabase, configure Prisma, run initial migrations
+2. **Database:** Set up Prisma Postgres, configure Prisma ORM, run initial migrations
 3. **CMS:** Install and configure PayloadCMS with Prisma adapter
 4. **Blockchain:** Integrate Solana SDK, Phantom wallet connection
 5. **State:** Set up Zustand stores for cart and wallet

@@ -11,42 +11,27 @@ import {
   Hr,
 } from '@react-email/components'
 
-interface OrderItem {
-  name: string
-  quantity: number
-  price: {
-    elurc: number
-    eur: number
-  }
-}
-
-interface OrderConfirmationEmailProps {
+interface CustomerOverpaymentEmailProps {
   orderNumber: string
   customerName: string
-  items: OrderItem[]
-  total: {
-    elurc: number
-    eur: number
-  }
+  expectedAmount: number
+  actualAmount: number
+  refundAmount: number
+  customerWallet: string
   transactionSignature: string
-  shippingAddress: {
-    fullName: string
-    streetAddress: string
-    city: string
-    postalCode: string
-  }
   orderDate: string
 }
 
-export default function OrderConfirmationEmail({
+export default function CustomerOverpaymentEmail({
   orderNumber,
   customerName,
-  items,
-  total,
+  expectedAmount,
+  actualAmount,
+  refundAmount,
+  customerWallet,
   transactionSignature,
-  shippingAddress,
   orderDate,
-}: OrderConfirmationEmailProps) {
+}: CustomerOverpaymentEmailProps) {
   const explorerUrl = `https://explorer.solana.com/tx/${transactionSignature}?cluster=${
     process.env.NEXT_PUBLIC_SOLANA_NETWORK || 'mainnet-beta'
   }`
@@ -54,7 +39,7 @@ export default function OrderConfirmationEmail({
   return (
     <Html>
       <Head />
-      <Preview>Order #{orderNumber} confirmed - Thank you for your purchase!</Preview>
+      <Preview>Overpayment Detected - Refund Being Processed for Order #{orderNumber}</Preview>
       <Body style={main}>
         <Container style={container}>
           <Section style={header}>
@@ -62,11 +47,12 @@ export default function OrderConfirmationEmail({
             <Text style={tagline}>Bretaigne&apos;s Organic Marketplace</Text>
           </Section>
 
-          <Section style={successSection}>
-            <Text style={successIcon}>✓</Text>
-            <Heading style={h2}>Payment Received!</Heading>
+          <Section style={noticeSection}>
+            <Text style={noticeIcon}>ℹ️</Text>
+            <Heading style={h2}>Overpayment Detected</Heading>
             <Text style={paragraph}>
-              Hi {customerName}, thank you for your order. We&apos;ll start preparing it right away.
+              Hi {customerName}, we noticed you sent more ELURC than required for your order.
+              Don&apos;t worry - we&apos;ll refund the excess amount to your wallet.
             </Text>
           </Section>
 
@@ -78,32 +64,42 @@ export default function OrderConfirmationEmail({
 
           <Hr style={hr} />
 
-          <Section style={section}>
-            <Heading style={h3}>Order Summary</Heading>
-            {items.map((item, index) => (
-              <div key={index} style={itemRow}>
-                <div style={itemLeft}>
-                  <Text style={itemName}>{item.name}</Text>
-                  <Text style={itemQuantity}>Qty: {item.quantity}</Text>
-                </div>
-                <div style={itemRight}>
-                  <Text style={itemPrice}>
-                    {((item.price.elurc * item.quantity) / 1_000_000).toFixed(2)} ELURC
-                  </Text>
-                  <Text style={itemPriceEur}>
-                    €{((item.price.eur * item.quantity) / 100).toFixed(2)}
-                  </Text>
-                </div>
-              </div>
-            ))}
-            <Hr style={hr} />
-            <div style={totalRow}>
-              <Text style={totalLabel}>Total</Text>
-              <div style={totalRight}>
-                <Text style={totalAmount}>{(total.elurc / 1_000_000).toFixed(2)} ELURC</Text>
-                <Text style={totalAmountEur}>€{(total.eur / 100).toFixed(2)}</Text>
-              </div>
+          <Section style={paymentBox}>
+            <Heading style={h3}>Payment Details</Heading>
+            <div style={detailRow}>
+              <Text style={detailLabel}>Order Total:</Text>
+              <Text style={detailValue}>
+                {(expectedAmount / 1_000_000).toFixed(2)} ELURC
+              </Text>
             </div>
+            <div style={detailRow}>
+              <Text style={detailLabel}>Amount Paid:</Text>
+              <Text style={detailValue}>
+                {(actualAmount / 1_000_000).toFixed(2)} ELURC
+              </Text>
+            </div>
+            <Hr style={hr} />
+            <div style={detailRow}>
+              <Text style={detailLabel}>Refund Amount:</Text>
+              <Text style={{ ...detailValue, color: '#10b981', fontWeight: 'bold' }}>
+                {(refundAmount / 1_000_000).toFixed(2)} ELURC
+              </Text>
+            </div>
+          </Section>
+
+          <Hr style={hr} />
+
+          <Section style={section}>
+            <Heading style={h3}>What Happens Next?</Heading>
+            <Text style={paragraph}>
+              • Your order will be processed normally
+              <br />
+              • We&apos;ll initiate a refund for the excess amount within 24 hours
+              <br />
+              • The refund will be sent to your wallet: {customerWallet.slice(0, 8)}...{customerWallet.slice(-8)}
+              <br />
+              • You&apos;ll receive a confirmation email once the refund is complete
+            </Text>
           </Section>
 
           <Hr style={hr} />
@@ -111,7 +107,7 @@ export default function OrderConfirmationEmail({
           <Section style={section}>
             <Heading style={h3}>Transaction Details</Heading>
             <Text style={paragraph}>
-              Your payment has been confirmed on the Solana blockchain.
+              Your original payment has been confirmed on the Solana blockchain.
             </Text>
             <Link href={explorerUrl} style={link}>
               View Transaction on Solana Explorer →
@@ -121,29 +117,13 @@ export default function OrderConfirmationEmail({
           <Hr style={hr} />
 
           <Section style={section}>
-            <Heading style={h3}>Shipping Information</Heading>
+            <Heading style={h3}>Need Help?</Heading>
             <Text style={paragraph}>
-              <strong>{shippingAddress.fullName}</strong>
+              If you have any questions about this overpayment or refund, please contact our support team:
               <br />
-              {shippingAddress.streetAddress}
-              <br />
-              {shippingAddress.city}, {shippingAddress.postalCode}
-            </Text>
-            <Text style={smallText}>
-              Estimated delivery: 2-3 business days
-            </Text>
-          </Section>
-
-          <Hr style={hr} />
-
-          <Section style={section}>
-            <Heading style={h3}>What Happens Next?</Heading>
-            <Text style={paragraph}>
-              • We&apos;ll prepare your order and ship it within 2-3 business days
-              <br />
-              • You&apos;ll receive a shipping confirmation email with tracking
-              <br />
-              • If you have any questions, contact us at support@elurc-market.com
+              <Link href="mailto:support@elurc-market.com" style={link}>
+                support@elurc-market.com
+              </Link>
             </Text>
           </Section>
 
@@ -195,15 +175,15 @@ const tagline = {
   padding: '0',
 }
 
-const successSection = {
+const noticeSection = {
   padding: '32px 24px',
   textAlign: 'center' as const,
 }
 
-const successIcon = {
+const noticeIcon = {
   fontSize: '48px',
   margin: '0 0 16px',
-  color: '#10b981',
+  color: '#3b82f6',
 }
 
 const h2 = {
@@ -259,78 +239,36 @@ const smallText = {
   margin: '0',
 }
 
+const paymentBox = {
+  padding: '24px',
+  backgroundColor: '#f0fdf4',
+  margin: '0 24px',
+  borderRadius: '8px',
+  border: '2px solid #10b981',
+}
+
+const detailRow = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginBottom: '12px',
+}
+
+const detailLabel = {
+  color: '#6b7280',
+  fontSize: '16px',
+  margin: '0',
+}
+
+const detailValue = {
+  color: '#1f2937',
+  fontSize: '16px',
+  fontWeight: '600',
+  margin: '0',
+  fontFamily: 'monospace',
+}
+
 const section = {
   padding: '24px',
-}
-
-const itemRow = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  marginBottom: '16px',
-}
-
-const itemLeft = {
-  flex: 1,
-}
-
-const itemRight = {
-  textAlign: 'right' as const,
-}
-
-const itemName = {
-  color: '#1f2937',
-  fontSize: '16px',
-  fontWeight: '500',
-  margin: '0 0 4px',
-}
-
-const itemQuantity = {
-  color: '#6b7280',
-  fontSize: '14px',
-  margin: '0',
-}
-
-const itemPrice = {
-  color: '#1f2937',
-  fontSize: '16px',
-  fontWeight: '500',
-  margin: '0 0 4px',
-}
-
-const itemPriceEur = {
-  color: '#6b7280',
-  fontSize: '14px',
-  margin: '0',
-}
-
-const totalRow = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  marginTop: '16px',
-}
-
-const totalLabel = {
-  color: '#1f2937',
-  fontSize: '18px',
-  fontWeight: 'bold',
-  margin: '0',
-}
-
-const totalRight = {
-  textAlign: 'right' as const,
-}
-
-const totalAmount = {
-  color: '#1f2937',
-  fontSize: '20px',
-  fontWeight: 'bold',
-  margin: '0 0 4px',
-}
-
-const totalAmountEur = {
-  color: '#6b7280',
-  fontSize: '16px',
-  margin: '0',
 }
 
 const hr = {

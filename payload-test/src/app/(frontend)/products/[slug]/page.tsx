@@ -8,8 +8,9 @@ import ProductInfo from '@/components/features/products/ProductInfo'
 import AddToCartBar from '@/components/features/products/AddToCartBar'
 import { Button } from '@/components/ui/button'
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const product = await getProductBySlug(params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const product = await getProductBySlug(slug)
   
   if (!product) {
     return {
@@ -29,8 +30,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
-  const product = await getProductBySlug(params.slug)
+export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const product = await getProductBySlug(slug)
 
   if (!product) {
     notFound()

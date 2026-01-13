@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import type { User } from '../payload-types'
 
 export const Orders: CollectionConfig = {
   slug: 'orders',
@@ -14,16 +15,16 @@ export const Orders: CollectionConfig = {
   access: {
     read: ({ req: { user } }) => {
       if (!user) return false
-      return (user as any).role === 'admin'
+      return (user as User).role === 'admin'
     },
     create: () => true,
     update: ({ req: { user } }) => {
       if (!user) return false
-      return (user as any).role === 'admin'
+      return (user as User).role === 'admin'
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return (user as any).role === 'admin'
+      return (user as User).role === 'admin'
     },
   },
   fields: [
@@ -45,6 +46,8 @@ export const Orders: CollectionConfig = {
       options: [
         { label: 'Pending', value: 'pending' },
         { label: 'Paid', value: 'paid' },
+        { label: 'Overpaid', value: 'overpaid' },
+        { label: 'Underpaid', value: 'underpaid' },
         { label: 'Processing', value: 'processing' },
         { label: 'Fulfilled', value: 'fulfilled' },
         { label: 'Cancelled', value: 'cancelled' },
@@ -187,6 +190,114 @@ export const Orders: CollectionConfig = {
       },
     },
     {
+      name: 'paymentDiscrepancy',
+      type: 'group',
+      label: 'Payment Discrepancy',
+      admin: {
+        description: 'Details about payment amount discrepancies',
+      },
+      fields: [
+        {
+          name: 'hasDiscrepancy',
+          type: 'checkbox',
+          label: 'Has Discrepancy',
+          defaultValue: false,
+        },
+        {
+          name: 'type',
+          type: 'select',
+          options: [
+            { label: 'None', value: 'none' },
+            { label: 'Overpayment', value: 'overpayment' },
+            { label: 'Underpayment', value: 'underpayment' },
+          ],
+          label: 'Discrepancy Type',
+        },
+        {
+          name: 'differenceAmount',
+          type: 'number',
+          label: 'Difference Amount (ELURC)',
+          admin: {
+            description: 'Amount difference in ELURC (positive for overpayment, negative for underpayment)',
+          },
+        },
+        {
+          name: 'detectedAt',
+          type: 'date',
+          label: 'Detected At',
+          admin: {
+            description: 'Timestamp when discrepancy was detected',
+          },
+        },
+        {
+          name: 'resolution',
+          type: 'select',
+          options: [
+            { label: 'Pending', value: 'pending' },
+            { label: 'Refund Initiated', value: 'refund_initiated' },
+            { label: 'Refund Completed', value: 'refund_completed' },
+            { label: 'Manually Approved', value: 'manually_approved' },
+            { label: 'Cancelled', value: 'cancelled' },
+          ],
+          label: 'Resolution Status',
+        },
+        {
+          name: 'resolutionNotes',
+          type: 'textarea',
+          label: 'Resolution Notes',
+          admin: {
+            description: 'Admin notes about how the discrepancy was resolved',
+          },
+        },
+      ],
+    },
+    {
+      name: 'refundInfo',
+      type: 'group',
+      label: 'Refund Information',
+      admin: {
+        description: 'Details about refund processing',
+      },
+      fields: [
+        {
+          name: 'refundAmount',
+          type: 'number',
+          label: 'Refund Amount (ELURC)',
+        },
+        {
+          name: 'refundWallet',
+          type: 'text',
+          label: 'Refund Wallet Address',
+          admin: {
+            description: 'Wallet address to send refund to',
+          },
+        },
+        {
+          name: 'refundTransactionSignature',
+          type: 'text',
+          label: 'Refund Transaction Signature',
+          admin: {
+            description: 'Solana transaction signature for refund',
+          },
+        },
+        {
+          name: 'refundInitiatedAt',
+          type: 'date',
+          label: 'Refund Initiated At',
+        },
+        {
+          name: 'refundCompletedAt',
+          type: 'date',
+          label: 'Refund Completed At',
+        },
+        {
+          name: 'refundReason',
+          type: 'textarea',
+          label: 'Refund Reason',
+        },
+      ],
+    },
+    {
       name: 'fulfilledAt',
       type: 'date',
       label: 'Fulfilled At',
@@ -247,8 +358,8 @@ export const Orders: CollectionConfig = {
         description: 'Internal notes for order management',
       },
       access: {
-        read: ({ req: { user } }) => (user as any)?.role === 'admin',
-        update: ({ req: { user } }) => (user as any)?.role === 'admin',
+        read: ({ req: { user } }) => (user as User | null)?.role === 'admin',
+        update: ({ req: { user } }) => (user as User | null)?.role === 'admin',
       },
     },
   ],

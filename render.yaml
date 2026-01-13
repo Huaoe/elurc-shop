@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: elurc-market
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: payload-test
+    buildCommand: corepack enable && yarn install && yarn build
+    startCommand: yarn start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.9.0
+      - key: DATABASE_URI
+        fromDatabase:
+          name: elurc-market-db
+          property: connectionString
+      - key: PAYLOAD_SECRET
+        generateValue: true
+      - key: NEXT_PUBLIC_SERVER_URL
+        sync: false
+    healthCheckPath: /api/health
+
+databases:
+  - name: elurc-market-db
+    databaseName: elurc_market
+    user: elurc_market_user
+    plan: free

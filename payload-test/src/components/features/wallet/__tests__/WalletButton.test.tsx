@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render } from '@testing-library/react'
 import WalletButton from '../WalletButton'
+import { useWallet } from '@solana/wallet-adapter-react'
 
 vi.mock('@solana/wallet-adapter-react', () => ({
   useWallet: vi.fn(() => ({
@@ -21,8 +22,7 @@ describe('WalletButton', () => {
   })
 
   it('should show connecting state', () => {
-    const { useWallet } = require('@solana/wallet-adapter-react')
-    useWallet.mockReturnValue({ connecting: true })
+    vi.mocked(useWallet).mockReturnValue({ connecting: true } as ReturnType<typeof useWallet>)
     
     const { container } = render(<WalletButton />)
     expect(container.textContent).toContain('Connecting...')

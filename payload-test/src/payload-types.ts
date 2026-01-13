@@ -254,7 +254,7 @@ export interface CmsProduct {
 export interface Order {
   id: number;
   orderNumber: string;
-  status: 'pending' | 'paid' | 'processing' | 'fulfilled' | 'cancelled' | 'timeout';
+  status: 'pending' | 'paid' | 'overpaid' | 'underpaid' | 'processing' | 'fulfilled' | 'cancelled' | 'timeout';
   /**
    * Total amount in ELURC tokens (lamports)
    */
@@ -295,6 +295,43 @@ export interface Order {
    * Timestamp when payment was confirmed
    */
   paidAt?: string | null;
+  /**
+   * Details about payment amount discrepancies
+   */
+  paymentDiscrepancy?: {
+    hasDiscrepancy?: boolean | null;
+    type?: ('none' | 'overpayment' | 'underpayment') | null;
+    /**
+     * Amount difference in ELURC (positive for overpayment, negative for underpayment)
+     */
+    differenceAmount?: number | null;
+    /**
+     * Timestamp when discrepancy was detected
+     */
+    detectedAt?: string | null;
+    resolution?: ('pending' | 'refund_initiated' | 'refund_completed' | 'manually_approved' | 'cancelled') | null;
+    /**
+     * Admin notes about how the discrepancy was resolved
+     */
+    resolutionNotes?: string | null;
+  };
+  /**
+   * Details about refund processing
+   */
+  refundInfo?: {
+    refundAmount?: number | null;
+    /**
+     * Wallet address to send refund to
+     */
+    refundWallet?: string | null;
+    /**
+     * Solana transaction signature for refund
+     */
+    refundTransactionSignature?: string | null;
+    refundInitiatedAt?: string | null;
+    refundCompletedAt?: string | null;
+    refundReason?: string | null;
+  };
   /**
    * Timestamp when order was marked as fulfilled
    */
@@ -553,6 +590,26 @@ export interface OrdersSelect<T extends boolean = true> {
       };
   transactionSignature?: T;
   paidAt?: T;
+  paymentDiscrepancy?:
+    | T
+    | {
+        hasDiscrepancy?: T;
+        type?: T;
+        differenceAmount?: T;
+        detectedAt?: T;
+        resolution?: T;
+        resolutionNotes?: T;
+      };
+  refundInfo?:
+    | T
+    | {
+        refundAmount?: T;
+        refundWallet?: T;
+        refundTransactionSignature?: T;
+        refundInitiatedAt?: T;
+        refundCompletedAt?: T;
+        refundReason?: T;
+      };
   fulfilledAt?: T;
   trackingNumber?: T;
   statusHistory?:

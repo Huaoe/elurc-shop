@@ -4,28 +4,22 @@ import config from '@/payload.config'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const payload = await getPayload({ config })
     const body = await request.json()
     const { trackingNumber, notes } = body
 
     const order = await payload.findByID({
       collection: 'orders',
-      id: params.id,
+      id,
       depth: 2,
     })
 
     if (!order) {
       return NextResponse.json({ error: 'Order not found' }, { status: 404 })
-    }
-
-    if (order.status !== 'paid' && order.status !== 'processing') {
-      return NextResponse.json(
-        { error: 'Order must be paid before fulfillment' },
-        { status: 400 }
-      )
     }
 
     if (order.status === 'fulfilled') {
@@ -35,10 +29,18 @@ export async function POST(
       )
     }
 
+    if (order.status !== 'paid' && order.status !== 'processing') {
+      return NextResponse.json(
+        { error: 'Order must be paid before fulfillment' },
+        { status: 400 }
+      )
+    }
+
     for (const item of order.items) {
+      const productId = typeof item.product === 'number' ? item.product : item.product.id
       const product = await payload.findByID({
         collection: 'cms_products',
-        id: typeof item.product === 'string' ? item.product : item.product.id,
+        id: productId,
       })
 
       if (product.stock < item.quantity) {
@@ -52,9 +54,10 @@ export async function POST(
     }
 
     for (const item of order.items) {
+      const productId = typeof item.product === 'number' ? item.product : item.product.id
       const product = await payload.findByID({
         collection: 'cms_products',
-        id: typeof item.product === 'string' ? item.product : item.product.id,
+        id: productId,
       })
 
       await payload.update({
@@ -68,7 +71,7 @@ export async function POST(
 
     const updatedOrder = await payload.update({
       collection: 'orders',
-      id: params.id,
+      id,
       data: {
         status: 'fulfilled',
         fulfilledAt: new Date().toISOString(),
@@ -86,7 +89,7 @@ export async function POST(
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          orderId: params.id,
+          orderId: id,
           orderNumber: order.orderNumber,
           customerEmail: order.customerEmail,
           trackingNumber: trackingNumber || order.trackingNumber,

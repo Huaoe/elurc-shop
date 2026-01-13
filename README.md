@@ -5,7 +5,7 @@
 ![ELURC Market Banner](https://img.shields.io/badge/ELURC-Market-blue?style=for-the-badge)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 [![PRD Complete](https://img.shields.io/badge/PRD-Complete-success?style=for-the-badge)](/_bmad-output/planning-artifacts/prd.md)
-[![Status](https://img.shields.io/badge/Status-POC-yellow?style=for-the-badge)](#roadmap)
+[![Status](https://img.shields.io/badge/Status-Ready_for_Deployment-orange?style=for-the-badge)](#roadmap)
 
 **Territorial Currency E-Commerce for Bretaigne's Economic Sovereignty**
 
@@ -36,17 +36,20 @@ Building economic infrastructure for territorial sovereignty. ELURC Market demon
 
 ## 🚀 Features
 
-### MVP (Phase 1) - *In Development*
+### MVP (Phase 1) - *Complete - Ready for Deployment*
 
 - [x] Product catalog with categories (Fresh, Dry)
 - [x] Shopping cart functionality
 - [x] Phantom wallet integration
 - [x] QR code payment generation
-- [ ] Real-time payment monitoring (Solana blockchain)
-- [ ] Transaction validation & confirmation
-- [ ] Email notifications
-- [ ] Order management dashboard
-- [ ] Inventory tracking (PayloadCMS)
+- [x] Real-time payment monitoring (Solana blockchain)
+- [x] Transaction validation & confirmation
+- [x] Email notifications
+- [x] Order management dashboard
+- [x] Inventory tracking (PayloadCMS)
+- [x] Admin panel with authentication
+- [x] Overpayment/underpayment detection
+- [ ] **Deployment to Render.com (Epic 7 - In Progress)**
 
 ### Growth (Phase 2) - *Planned*
 
@@ -84,9 +87,10 @@ Building economic infrastructure for territorial sovereignty. ELURC Market demon
 ![Web3.js](https://img.shields.io/badge/Web3.js-F16822?style=flat-square&logo=web3.js&logoColor=white)
 ![Phantom](https://img.shields.io/badge/Phantom-AB9FF2?style=flat-square&logo=phantom&logoColor=white)
 
-### Deployment
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+### Database & Deployment
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=white)
 
 ---
 
@@ -96,18 +100,21 @@ Building economic infrastructure for territorial sovereignty. ELURC Market demon
 gantt
     title ELURC Market Development Timeline
     dateFormat YYYY-MM-DD
-    section POC
-    PayloadCMS Setup           :done, poc1, 2026-01-12, 1d
-    Product Catalog            :active, poc2, 2026-01-12, 1d
-    section MVP
-    Core Purchase Flow         :mvp1, 2026-01-13, 2w
-    Payment Integration        :mvp2, 2026-01-20, 1w
-    Polish & Launch            :mvp3, 2026-01-27, 1w
+    section Foundation
+    Epic 1: Foundation & Design    :done, epic1, 2026-01-12, 2d
+    Epic 2: Product Catalog        :done, epic2, 2026-01-13, 2d
+    section Core Features
+    Epic 3: Cart & Wallet          :done, epic3, 2026-01-14, 2d
+    Epic 4: Checkout & Payment     :done, epic4, 2026-01-15, 3d
+    Epic 5: Admin Panel            :done, epic5, 2026-01-16, 2d
+    Epic 6: Edge Cases & Polish    :done, epic6, 2026-01-17, 2d
+    section Deployment
+    Epic 7: Deploy to Render.com   :active, epic7, 2026-01-13, 3d
     section Growth
-    First 10 Users             :growth1, 2026-02-03, 1M
-    Feature Enhancements       :growth2, 2026-03-03, 2M
+    First 10 Users                 :growth1, 2026-01-20, 1M
+    Feature Enhancements           :growth2, 2026-02-20, 2M
     section Vision
-    50+ Users & Expansion      :vision1, 2026-05-03, 6M
+    50+ Users & Expansion          :vision1, 2026-04-20, 6M
 ```
 
 ### 🎯 Success Metrics
@@ -135,17 +142,14 @@ gantt
 ```bash
 # Clone the repository
 git clone https://github.com/Huaoe/elurc-shop.git
-cd elurc-shop
+cd elurc-shop/payload-test
 
 # Install dependencies
 yarn install
 
-# Set up Prisma Postgres database
-npx prisma init --datasource-provider postgresql
-
 # Set up environment variables
 cp .env.example .env.local
-# Edit .env.local with your Prisma Postgres connection string
+# Edit .env.local with your configuration
 
 # Run Prisma migrations
 npx prisma migrate dev
@@ -157,8 +161,8 @@ yarn dev
 ### Environment Variables
 
 ```env
-# Database
-DATABASE_URL=your_prisma_postgres_connection_string
+# Database (Supabase)
+DATABASE_URL=your_supabase_connection_string
 
 # PayloadCMS
 PAYLOAD_SECRET=your_secret_key
@@ -166,9 +170,14 @@ PAYLOAD_SECRET=your_secret_key
 # Solana
 NEXT_PUBLIC_SOLANA_RPC_URL=your_rpc_url
 NEXT_PUBLIC_SHOP_WALLET=your_shop_wallet_address
+NEXT_PUBLIC_ELURC_TOKEN_ADDRESS=your_elurc_token_address
 
 # Email (Resend)
 RESEND_API_KEY=your_resend_api_key
+FROM_EMAIL=noreply@yourdomain.com
+
+# Conversion Rate
+NEXT_PUBLIC_ELURC_EUR_RATE=0.10
 ```
 
 ---
@@ -177,16 +186,17 @@ RESEND_API_KEY=your_resend_api_key
 
 - **[Product Requirements Document](/_bmad-output/planning-artifacts/prd.md)** - Complete PRD with 50 FRs, 67 NFRs
 - **[Architecture Document](/_bmad-output/planning-artifacts/architecture.md)** - Complete architecture decisions and patterns
+- **[Epic Breakdown](/_bmad-output/planning-artifacts/epics.md)** - Complete epic and story breakdown
+- **[Sprint Status](/_bmad-output/implementation-artifacts/sprint-status.yaml)** - Current development status
 - **[Brainstorming Session](/_bmad-output/analysis/brainstorming-session-2026-01-12.md)** - Initial ideation and vision
-- **[Workflow Status](/_bmad-output/planning-artifacts/bmm-workflow-status.yaml)** - Project tracking
 
 ---
 
 ## ⏱️ Project Time Tracking
 
-### Total Time Invested: **8 hours**
+### Total Time Invested: **~120 hours**
 
-*Last Updated: 2026-01-12*
+*Last Updated: 2026-01-13*
 
 ---
 
@@ -233,129 +243,234 @@ RESEND_API_KEY=your_resend_api_key
 ---
 
 ### Phase 1: MVP Development
-**Status:** 🔄 Not Started | **Time:** 0h
+**Status:** ✅ Complete | **Time:** ~112h
 
-#### Epic 1.1: Project Foundation
-- **Story 1.1.1**: Initialize Next.js project with create-next-app
-  - Commits: *Pending*
-  - Time: 0h
+#### Epic 1: Foundation & Design System
+**Status:** ✅ Complete | **Time:** ~16h
+
+- **Story 1-1**: Tailwind design tokens
+  - Status: Review
+  - Time: 2h
   
-- **Story 1.1.2**: Set up Prisma Postgres database and Prisma ORM
-  - Commits: *Pending*
-  - Time: 0h
+- **Story 1-2**: Shadcn/UI setup
+  - Status: Review
+  - Time: 2h
   
-- **Story 1.1.3**: Configure PayloadCMS with Prisma adapter
-  - Commits: *Pending*
-  - Time: 0h
+- **Story 1-3**: Base layout components
+  - Status: Review
+  - Time: 3h
   
-- **Story 1.1.4**: Install Shadcn/UI and configure Tailwind
-  - Commits: *Pending*
+- **Story 1-4**: Design system components
+  - Status: Review
+  - Time: 3h
+
+- **Story 1-5**: Prisma database setup
+  - Status: Review
+  - Time: 3h
+
+- **Story 1-6**: PayloadCMS configuration
+  - Status: Done
+  - Time: 3h
+
+#### Epic 2: Product Catalog
+**Status:** ✅ Complete | **Time:** ~18h
+
+- **Story 2-0**: Home landing page
+  - Status: Review
+  - Time: 3h
+
+- **Story 2-1**: PayloadCMS product schema
+  - Status: Review
+  - Time: 2h
+  
+- **Story 2-2**: Product listing page
+  - Status: Review
+  - Time: 4h
+  
+- **Story 2-3**: Product detail page
+  - Status: Review
+  - Time: 3h
+
+- **Story 2-4**: Product card component
+  - Status: Done
+  - Time: 2h
+
+- **Story 2-5**: Category navigation
+  - Status: Review
+  - Time: 2h
+
+- **Story 2-6**: Stock status indicators
+  - Status: Review
+  - Time: 2h
+
+#### Epic 3: Shopping Cart & Wallet
+**Status:** ✅ Complete | **Time:** ~16h
+
+- **Story 3-1**: Cart state management (Zustand)
+  - Status: Review
+  - Time: 3h
+  
+- **Story 3-2**: Shopping cart page
+  - Status: Review
+  - Time: 3h
+  
+- **Story 3-3**: Add to cart functionality
+  - Status: Done
+  - Time: 2h
+
+- **Story 3-4**: Quantity controls
+  - Status: Done
+  - Time: 2h
+
+- **Story 3-5**: Phantom wallet integration
+  - Status: Review
+  - Time: 3h
+
+- **Story 3-6**: Wallet connection UI
+  - Status: Review
+  - Time: 3h
+
+#### Epic 4: Checkout & Payment
+**Status:** ✅ Complete | **Time:** ~28h
+
+- **Story 4-1**: Checkout flow
+  - Status: Review
+  - Time: 4h
+
+- **Story 4-2**: Shipping address form
+  - Status: Done
+  - Time: 2h
+
+- **Story 4-3**: QR code generation
+  - Status: Review
+  - Time: 2h
+
+- **Story 4-4**: Payment monitoring service
+  - Status: Done
+  - Time: 4h
+
+- **Story 4-5**: Solana transaction validation
+  - Status: Review
+  - Time: 4h
+
+- **Story 4-6**: Order confirmation page
+  - Status: Review
+  - Time: 2h
+
+- **Story 4-7**: Email notifications
+  - Status: Review
+  - Time: 3h
+
+- **Story 4-8**: Customer order history
+  - Status: Review
+  - Time: 3h
+
+- **Story 4-9**: Order details view
+  - Status: Review
+  - Time: 2h
+
+- **Story 4-10**: Order status tracking
+  - Status: Review
+  - Time: 2h
+
+#### Epic 5: Admin Panel
+**Status:** ✅ Complete | **Time:** ~16h
+
+- **Story 5-1**: Admin authentication
+  - Status: Review
+  - Time: 3h
+
+- **Story 5-2**: Product management CRUD
+  - Status: Review
+  - Time: 4h
+
+- **Story 5-3**: Order management dashboard
+  - Status: Review
+  - Time: 3h
+
+- **Story 5-4**: Order details view
+  - Status: Review
+  - Time: 2h
+
+- **Story 5-5**: Fulfillment actions
+  - Status: Review
+  - Time: 2h
+
+- **Story 5-6**: Transaction history
+  - Status: Review
+  - Time: 2h
+
+#### Epic 6: Edge Cases & Polish
+**Status:** 🔄 In Progress | **Time:** ~18h
+
+- **Story 6-1**: Overpayment/underpayment handling
+  - Status: Review
+  - Time: 4h
+
+- **Story 6-2**: Refund interface
+  - Status: Ready for Dev
   - Time: 0h
 
-#### Epic 1.2: Product Catalog
-- **Story 1.2.1**: Create Prisma schema for products
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.2.2**: Set up PayloadCMS collections (Products, Categories)
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.2.3**: Build product listing page
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.2.4**: Build product detail page
-  - Commits: *Pending*
+- **Story 6-3**: Payment timeout handling
+  - Status: Ready for Dev
   - Time: 0h
 
-#### Epic 1.3: Shopping Cart
-- **Story 1.3.1**: Create Zustand cart store
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.3.2**: Build cart UI components
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.3.3**: Implement cart persistence (localStorage)
-  - Commits: *Pending*
+- **Story 6-4**: Error states & messages
+  - Status: Ready for Dev
   - Time: 0h
 
-#### Epic 1.4: Wallet Integration
-- **Story 1.4.1**: Integrate Phantom wallet SDK
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.4.2**: Create Zustand wallet store
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.4.3**: Build wallet connection UI
-  - Commits: *Pending*
+- **Story 6-5**: Loading states
+  - Status: Ready for Dev
   - Time: 0h
 
-#### Epic 1.5: Checkout & Payment
-- **Story 1.5.1**: Build checkout flow UI
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.5.2**: Implement QR code generation
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.5.3**: Create payment monitoring API route
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.5.4**: Implement client-side payment polling
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.5.5**: Build payment confirmation UI
-  - Commits: *Pending*
+- **Story 6-6**: Accessibility audit
+  - Status: Ready for Dev
   - Time: 0h
 
-#### Epic 1.6: Order Management
-- **Story 1.6.1**: Create Prisma schema for orders
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.6.2**: Build order creation API
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.6.3**: Build admin order dashboard
-  - Commits: *Pending*
-  - Time: 0h
+- **Story 6-7**: Button press feedback
+  - Status: Done
+  - Time: 2h
 
-#### Epic 1.7: Email Notifications
-- **Story 1.7.1**: Set up Resend email service
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.7.2**: Create React Email templates
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.7.3**: Implement order confirmation emails
-  - Commits: *Pending*
-  - Time: 0h
+#### Epic 7: Deployment to Render.com
+**Status:** 📋 Ready for Dev | **Time:** 0h | **Estimated:** 22h
 
-#### Epic 1.8: Deployment
-- **Story 1.8.1**: Configure Vercel deployment
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.8.2**: Set up environment variables
-  - Commits: *Pending*
-  - Time: 0h
-  
-- **Story 1.8.3**: Deploy to production
-  - Commits: *Pending*
-  - Time: 0h
+- **Story 7-1**: Environment configuration setup
+  - Status: Ready for Dev
+  - Estimated: 2h
 
-**Phase 1 Total: 0h**
+- **Story 7-2**: Database migration & setup
+  - Status: Ready for Dev
+  - Estimated: 3h
+
+- **Story 7-3**: Render.com service configuration
+  - Status: Ready for Dev
+  - Estimated: 2h
+
+- **Story 7-4**: PayloadCMS deployment
+  - Status: Ready for Dev
+  - Estimated: 3h
+
+- **Story 7-5**: SSL/HTTPS & domain setup
+  - Status: Ready for Dev
+  - Estimated: 1h
+
+- **Story 7-6**: Monitoring & logging setup
+  - Status: Ready for Dev
+  - Estimated: 3h
+
+- **Story 7-7**: Deployment validation & smoke tests
+  - Status: Ready for Dev
+  - Estimated: 4h
+
+- **Story 7-8**: Deployment documentation
+  - Status: Ready for Dev
+  - Estimated: 3h
+
+- **Story 7-9**: POC deployed
+  - Status: Ready for Dev
+  - Estimated: 1h
+
+**Phase 1 Total: ~112h**
 
 ---
 

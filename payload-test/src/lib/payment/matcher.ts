@@ -11,6 +11,8 @@ interface TransactionMatch {
   signature: string
   amount: number
   timestamp: number
+  paymentStatus: 'exact' | 'overpaid' | 'underpaid'
+  difference: number
 }
 
 export async function findMatchingTransaction(
@@ -68,21 +70,31 @@ export async function findMatchingTransaction(
         continue
       }
 
-      const amountDiff = Math.abs(tokenTransfer.amount - order.amountElurc)
-      const tolerance = 9000
+      const difference = tokenTransfer.amount - order.amountElurc
+      const tolerance = 1000
       
       console.log('  ✓ Sender matches!')
-      console.log('  Amount check:', tokenTransfer.amount, 'vs', order.amountElurc, '(diff:', amountDiff, ')')
+      console.log('  Amount check:', tokenTransfer.amount, 'vs', order.amountElurc, '(diff:', difference, ')')
       
-      if (amountDiff <= tolerance) {
-        console.log('  ✅ MATCH FOUND!')
-        return {
-          signature: sig.signature,
-          amount: tokenTransfer.amount,
-          timestamp: sig.blockTime! * 1000,
-        }
+      let paymentStatus: 'exact' | 'overpaid' | 'underpaid'
+      
+      if (Math.abs(difference) <= tolerance) {
+        paymentStatus = 'exact'
+        console.log('  ✅ EXACT MATCH (within tolerance)')
+      } else if (difference > 0) {
+        paymentStatus = 'overpaid'
+        console.log('  ⚠️ OVERPAYMENT DETECTED:', difference, 'ELURC over')
       } else {
-        console.log('  ❌ Amount mismatch (tolerance:', tolerance, ')')
+        paymentStatus = 'underpaid'
+        console.log('  ⚠️ UNDERPAYMENT DETECTED:', Math.abs(difference), 'ELURC short')
+      }
+      
+      return {
+        signature: sig.signature,
+        amount: tokenTransfer.amount,
+        timestamp: sig.blockTime! * 1000,
+        paymentStatus,
+        difference,
       }
     } catch (error) {
       console.error(`  ❌ Error parsing transaction ${sig.signature}:`, error)

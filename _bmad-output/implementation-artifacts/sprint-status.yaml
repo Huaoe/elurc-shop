@@ -1,0 +1,120 @@
+# generated: 2026-01-12
+# project: elurc-market
+# project_key: elurc-market
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-01-12
+project: elurc-market
+project_key: elurc-market
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # Epic 1: Foundation & Design System
+  epic-1: done
+  1-1-tailwind-design-tokens: review
+  1-2-shadcn-ui-setup: review
+  1-3-base-layout: review
+  1-4-design-system-components: review
+  1-5-prisma-database-setup: review
+  1-6-payloadcms-configuration: done
+  epic-1-retrospective: optional
+
+  # Epic 2: Product Catalog
+  epic-2: done
+  2-0-home-landing-page: review
+  2-1-payloadcms-product-schema: review
+  2-2-product-listing-page: review
+  2-3-product-detail-page: review
+  2-4-product-card-component: done
+  2-5-category-navigation: review
+  2-6-stock-status-indicators: review
+  epic-2-retrospective: optional
+
+  # Epic 3: Shopping Cart & Wallet
+  epic-3: done
+  3-1-cart-state-management: review
+  3-2-shopping-cart-page: review
+  3-3-add-to-cart-functionality: done
+  3-4-quantity-controls: done
+  3-5-phantom-wallet-integration: review
+  3-6-wallet-connection-ui: review
+  epic-3-retrospective: optional
+
+  # Epic 4: Checkout & Payment
+  epic-4: done
+  4-1-checkout-flow: review
+  4-2-shipping-address-form: done
+  4-3-qr-code-generation: review
+  4-4-payment-monitoring-service: done
+  4-5-solana-transaction-validation: review
+  4-6-order-confirmation-page: review
+  4-7-email-notifications: review
+  4-8-customer-order-history: review
+  4-9-order-details-view: review
+  4-10-order-status-tracking: review
+  epic-4-retrospective: optional
+
+  # Epic 5: Admin Panel
+  epic-5: done
+  5-1-admin-authentication: review
+  5-2-product-management-crud: review
+  5-3-order-management-dashboard: review
+  5-4-order-details-view: review
+  5-5-fulfillment-actions: review
+  5-6-transaction-history: review
+  epic-5-retrospective: optional
+
+  # Epic 6: Edge Cases & Polish
+  epic-6: in-progress
+  6-1-overpayment-underpayment-handling: review
+  6-2-refund-interface: ready-for-dev
+  6-3-payment-timeout-handling: ready-for-dev
+  6-4-error-states-messages: ready-for-dev
+  6-5-loading-states: ready-for-dev
+  6-6-accessibility-audit: ready-for-dev
+  6-7-button-press-feedback: done
+  epic-6-retrospective: optional
+
+  # Epic 7: Deployment to Render.com
+  epic-7: ready-for-dev
+  7-1-environment-configuration-setup: ready-for-dev
+  7-2-database-migration-setup: ready-for-dev
+  7-3-render-service-configuration: ready-for-dev
+  7-4-payloadcms-deployment: ready-for-dev
+  7-5-ssl-https-domain-setup: ready-for-dev
+  7-6-monitoring-logging-setup: ready-for-dev
+  7-7-deployment-validation-smoke-tests: ready-for-dev
+  7-8-deployment-documentation: ready-for-dev
+  7-9-poc-deployed: ready-for-dev
+  epic-7-retrospective: optional

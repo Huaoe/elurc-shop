@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    cms_categories: CmsCategory;
+    cms_products: CmsProduct;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +80,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    cms_categories: CmsCategoriesSelect<false> | CmsCategoriesSelect<true>;
+    cms_products: CmsProductsSelect<false> | CmsProductsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -162,6 +166,46 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cms_categories".
+ */
+export interface CmsCategory {
+  id: number;
+  name: string;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cms_products".
+ */
+export interface CmsProduct {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  /**
+   * Price in lamports (smallest ELURC unit)
+   */
+  price_elurc: number;
+  /**
+   * Price in cents (smallest EUR unit)
+   */
+  price_eur: number;
+  category: number | CmsCategory;
+  stock: number;
+  in_stock?: boolean | null;
+  images?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -191,6 +235,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'cms_categories';
+        value: number | CmsCategory;
+      } | null)
+    | ({
+        relationTo: 'cms_products';
+        value: number | CmsProduct;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -274,6 +326,38 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cms_categories_select".
+ */
+export interface CmsCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cms_products_select".
+ */
+export interface CmsProductsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  price_elurc?: T;
+  price_eur?: T;
+  category?: T;
+  stock?: T;
+  in_stock?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

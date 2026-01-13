@@ -1,19 +1,35 @@
-import React from 'react'
-import './styles.css'
+import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import "./globals.css";
+import { LayoutWrapper } from "@/components/layout/LayoutWrapper";
 
-export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
-}
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
 
+export const metadata: Metadata = {
+  title: "elurc-market - Organic Groceries with ELURC",
+  description: "Shop organic groceries from Bretaigne and pay with ELURC cryptocurrency",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body>
-        <main>{children}</main>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
-  )
+  );
 }

@@ -34,6 +34,30 @@ export default async function OrderConfirmationPage({
     notFound()
   }
 
+  // Transform order items to match OrderSummary expected type
+  const transformedItems = order.items.map((item) => {
+    if (typeof item.product === 'number') {
+      return {
+        product: { id: String(item.product), name: 'Product', image: undefined },
+        quantity: item.quantity,
+        priceSnapshot: item.priceSnapshot,
+      }
+    }
+    
+    const firstImage = item.product.images?.[0]?.image
+    const imageUrl = typeof firstImage === 'object' && firstImage !== null ? firstImage.url : undefined
+    
+    return {
+      product: {
+        id: String(item.product.id),
+        name: item.product.name,
+        image: imageUrl || undefined,
+      },
+      quantity: item.quantity,
+      priceSnapshot: item.priceSnapshot,
+    }
+  })
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <OrderSuccess orderNumber={order.orderNumber} />
@@ -49,7 +73,7 @@ export default async function OrderConfirmationPage({
           />
 
           <OrderSummary
-            items={order.items}
+            items={transformedItems}
             amountElurc={order.amountElurc}
             amountEur={order.amountEur}
           />

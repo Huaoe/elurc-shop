@@ -28,6 +28,12 @@ interface CreateOrderParams {
 export async function createOrder(params: CreateOrderParams) {
   const payload = await getPayload({ config })
 
+  // Convert product IDs from strings to numbers for Payload
+  const itemsWithNumericIds = params.items.map(item => ({
+    ...item,
+    product: parseInt(item.product, 10),
+  }))
+
   const order = await payload.create({
     collection: 'orders',
     data: {
@@ -38,7 +44,7 @@ export async function createOrder(params: CreateOrderParams) {
       customerWallet: params.customerWallet,
       customerEmail: params.customerEmail,
       shippingAddress: params.shippingAddress,
-      items: params.items,
+      items: itemsWithNumericIds,
       createdAt: new Date().toISOString(),
     },
   })

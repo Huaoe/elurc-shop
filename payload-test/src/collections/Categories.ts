@@ -1,5 +1,9 @@
 import { CollectionConfig } from 'payload'
 
+type UserWithRole = {
+  role?: string
+}
+
 export const Categories: CollectionConfig = {
   slug: 'cms_categories',
   admin: {
@@ -11,15 +15,15 @@ export const Categories: CollectionConfig = {
     read: () => true,
     create: ({ req: { user } }) => {
       if (!user) return false
-      return (user as any).role === 'admin'
+      return (user as UserWithRole).role === 'admin'
     },
     update: ({ req: { user } }) => {
       if (!user) return false
-      return (user as any).role === 'admin'
+      return (user as UserWithRole).role === 'admin'
     },
     delete: ({ req: { user } }) => {
       if (!user) return false
-      return (user as any).role === 'admin'
+      return (user as UserWithRole).role === 'admin'
     },
   },
   fields: [

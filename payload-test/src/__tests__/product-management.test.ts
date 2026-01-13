@@ -331,7 +331,7 @@ describe('Product Management CRUD', () => {
       expect(response.ok).toBe(true)
       const data = await response.json()
       expect(data.docs).toBeDefined()
-      data.docs.forEach((product: any) => {
+      data.docs.forEach((product: { category: string }) => {
         expect(product.category).toBe(testCategoryId)
       })
     })

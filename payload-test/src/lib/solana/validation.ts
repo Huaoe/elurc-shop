@@ -247,7 +247,7 @@ export async function validateTransaction(
     }
 
     const timestampValidation = validateTimestamp(
-      tx.blockTime,
+      tx.blockTime ?? null,
       options.orderCreatedAt,
       maxAge
     )

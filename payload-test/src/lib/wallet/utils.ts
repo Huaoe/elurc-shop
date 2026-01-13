@@ -32,5 +32,5 @@ export function getWalletErrorMessage(error: unknown): string {
 
 export function isPhantomInstalled(): boolean {
   if (typeof window === 'undefined') return false
-  return 'phantom' in window && window.phantom?.solana?.isPhantom
+  return 'phantom' in window && (window as any).phantom?.solana?.isPhantom
 }

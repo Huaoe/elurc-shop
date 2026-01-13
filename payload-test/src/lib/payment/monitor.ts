@@ -66,10 +66,19 @@ export async function checkPaymentStatus(
     console.log('[Payment Monitor] Found', signatures.length, 'transactions from customer wallet')
     console.log('[Payment Monitor] First 5 signatures:', signatures.slice(0, 5).map(s => s.signature))
 
+    // Map signatures to expected type, converting undefined blockTime to null
+    const validSignatures = signatures.map(sig => ({
+      signature: sig.signature,
+      blockTime: sig.blockTime ?? null
+    }))
+
     const match = await findMatchingTransaction(
       connection,
-      signatures,
-      order
+      validSignatures,
+      {
+        ...order,
+        id: String(order.id)
+      }
     )
 
     if (match) {

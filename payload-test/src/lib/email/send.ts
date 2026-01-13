@@ -44,7 +44,7 @@ export async function sendOrderConfirmationEmail(
       }
     }
 
-    const emailHtml = render(
+    const emailHtml = await render(
       OrderConfirmationEmail({
         orderNumber: orderData.orderNumber,
         customerName: orderData.customerName,

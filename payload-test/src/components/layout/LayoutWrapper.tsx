@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Header } from "./Header"
 import { Navigation } from "./Navigation"
 import { Footer } from "./Footer"
+import { useCart } from "@/hooks/useCart"
 
 interface LayoutWrapperProps {
   children: React.ReactNode
@@ -11,16 +12,17 @@ interface LayoutWrapperProps {
 
 export const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { itemCount } = useCart()
 
   return (
     <>
       <Header
-        cartItemCount={0}
+        cartItemCount={itemCount}
         walletConnected={false}
         onMenuClick={() => setMobileMenuOpen(true)}
       />
       <Navigation
-        cartItemCount={0}
+        cartItemCount={itemCount}
         open={mobileMenuOpen}
         onOpenChange={setMobileMenuOpen}
       />

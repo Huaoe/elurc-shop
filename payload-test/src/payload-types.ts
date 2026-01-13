@@ -163,6 +163,32 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    large?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -182,18 +208,24 @@ export interface CmsCategory {
 export interface CmsProduct {
   id: number;
   name: string;
+  /**
+   * Auto-generated from product name
+   */
   slug: string;
   description?: string | null;
   /**
-   * Price in lamports (smallest ELURC unit)
+   * Price in ELURC tokens (stored in lamports)
    */
   price_elurc: number;
   /**
-   * Price in cents (smallest EUR unit)
+   * Price in euros (stored in cents)
    */
   price_eur: number;
   category: number | CmsCategory;
   stock: number;
+  /**
+   * Uncheck to mark product as out of stock
+   */
   in_stock?: boolean | null;
   images?:
     | {
@@ -326,6 +358,40 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

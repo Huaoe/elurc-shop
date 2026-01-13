@@ -11,6 +11,8 @@
 
 *The first organic grocery marketplace exclusively powered by ELURC cryptocurrency*
 
+🚀 **[Live Demo on Render.com](https://elurc-shopping.onrender.com)** 🚀
+
 [Features](#-features) • [Tech Stack](#-tech-stack) • [Roadmap](#-roadmap) • [Getting Started](#-getting-started)
 
 </div>

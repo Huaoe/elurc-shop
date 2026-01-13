@@ -1,8 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, createContext, useContext } from 'react'
 import { useOrderStatusPolling } from '@/hooks/useOrderStatusPolling'
 import OrderStatusNotification from '@/components/features/order/OrderStatusNotification'
+
+const PollingContext = createContext<{ isPolling: boolean }>({ isPolling: false })
+
+export const usePollingStatus = () => useContext(PollingContext)
 
 interface OrderDetailsWithPollingProps {
   orderId: string
@@ -36,7 +40,7 @@ export default function OrderDetailsWithPolling({
   })
 
   return (
-    <>
+    <PollingContext.Provider value={{ isPolling }}>
       {notification && (
         <OrderStatusNotification
           newStatus={notification.newStatus}
@@ -53,6 +57,6 @@ export default function OrderDetailsWithPolling({
       )}
 
       {children}
-    </>
+    </PollingContext.Provider>
   )
 }

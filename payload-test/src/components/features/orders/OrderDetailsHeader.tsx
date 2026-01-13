@@ -1,22 +1,24 @@
+'use client'
+
 import Link from 'next/link'
 import { formatDistance } from 'date-fns'
 import { ChevronLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import OrderStatusBadge from './OrderStatusBadge'
+import { usePollingStatus } from '@/app/(frontend)/orders/[orderId]/_components/OrderDetailsWithPolling'
 
 interface OrderDetailsHeaderProps {
   orderNumber: string
   status: 'pending' | 'paid' | 'processing' | 'fulfilled' | 'cancelled' | 'timeout'
   createdAt: number
-  isPolling?: boolean
 }
 
 export default function OrderDetailsHeader({
   orderNumber,
   status,
   createdAt,
-  isPolling = false,
 }: OrderDetailsHeaderProps) {
+  const { isPolling } = usePollingStatus()
   const orderDate = new Date(createdAt)
   const timeAgo = formatDistance(orderDate, new Date(), { addSuffix: true })
 

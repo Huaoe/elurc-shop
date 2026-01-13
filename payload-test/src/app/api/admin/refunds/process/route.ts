@@ -88,7 +88,8 @@ export async function POST(request: NextRequest) {
     const refundRecord = await payload.create({
       collection: 'refunds',
       data: {
-        order: orderId,
+        refundNumber: `REF-${Date.now()}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`,
+        order: parseInt(orderId, 10),
         status: 'pending',
         amount: refundAmount,
         walletAddress,
@@ -96,6 +97,7 @@ export async function POST(request: NextRequest) {
         adminNotes,
         ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
       },
+      draft: false,
     })
 
     await payload.update({

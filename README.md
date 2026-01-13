@@ -127,7 +127,7 @@ gantt
 
 - Node.js 18+ and Yarn
 - Phantom wallet (for testing)
-- PayloadCMS account
+- Prisma account (for database)
 - Solana RPC access
 
 ### Installation
@@ -140,12 +140,15 @@ cd elurc-shop
 # Install dependencies
 yarn install
 
+# Set up Prisma Postgres database
+npx prisma init --datasource-provider postgresql
+
 # Set up environment variables
 cp .env.example .env.local
-# Edit .env.local with your configuration
+# Edit .env.local with your Prisma Postgres connection string
 
-# Run PayloadCMS
-yarn payload:dev
+# Run Prisma migrations
+npx prisma migrate dev
 
 # Run Next.js development server
 yarn dev
@@ -154,18 +157,18 @@ yarn dev
 ### Environment Variables
 
 ```env
+# Database
+DATABASE_URL=your_prisma_postgres_connection_string
+
 # PayloadCMS
 PAYLOAD_SECRET=your_secret_key
-DATABASE_URI=your_database_uri
 
 # Solana
 NEXT_PUBLIC_SOLANA_RPC_URL=your_rpc_url
 NEXT_PUBLIC_SHOP_WALLET=your_shop_wallet_address
 
-# Email
-SMTP_HOST=your_smtp_host
-SMTP_USER=your_smtp_user
-SMTP_PASS=your_smtp_password
+# Email (Resend)
+RESEND_API_KEY=your_resend_api_key
 ```
 
 ---
@@ -181,51 +184,51 @@ SMTP_PASS=your_smtp_password
 
 ## ⏱️ Project Time Tracking
 
-### Total Time Invested: **0 hours**
+### Total Time Invested: **8 hours**
 
 *Last Updated: 2026-01-12*
 
 ---
 
 ### Phase 0: Planning & Architecture
-**Status:** ✅ Complete | **Time:** 0h
+**Status:** ✅ Complete | **Time:** 8h
 
 #### Epic 0.1: Project Discovery & Requirements
 - **Story 0.1.1**: Brainstorming session and vision definition
-  - Commits: *None yet*
-  - Time: 0h
+  - Commits: `9e32130`
+  - Time: 1h
   
 - **Story 0.1.2**: Product Requirements Document (PRD)
-  - Commits: *None yet*
-  - Time: 0h
+  - Commits: `9e32130`
+  - Time: 2h
 
 #### Epic 0.2: UX/UI Design
 - **Story 0.2.1**: UX design overview and principles
-  - Commits: *None yet*
-  - Time: 0h
+  - Commits: `9e32130`
+  - Time: 1h
   
 - **Story 0.2.2**: Information architecture
-  - Commits: *None yet*
-  - Time: 0h
+  - Commits: `9e32130`
+  - Time: 0.5h
   
 - **Story 0.2.3**: User flows and wireframes
-  - Commits: *None yet*
-  - Time: 0h
+  - Commits: `9e32130`
+  - Time: 1h
   
 - **Story 0.2.4**: Design system and accessibility specs
-  - Commits: *None yet*
-  - Time: 0h
+  - Commits: `9e32130`
+  - Time: 0.5h
 
 #### Epic 0.3: Architecture & Technical Design
 - **Story 0.3.1**: Architecture decisions document
-  - Commits: *None yet*
-  - Time: 0h
+  - Commits: `9e32130`
+  - Time: 1.5h
   
 - **Story 0.3.2**: Technology stack selection
-  - Commits: *None yet*
-  - Time: 0h
+  - Commits: `9e32130`
+  - Time: 0.5h
 
-**Phase 0 Total: 0h**
+**Phase 0 Total: 8h**
 
 ---
 
@@ -237,7 +240,7 @@ SMTP_PASS=your_smtp_password
   - Commits: *Pending*
   - Time: 0h
   
-- **Story 1.1.2**: Set up Supabase database and Prisma ORM
+- **Story 1.1.2**: Set up Prisma Postgres database and Prisma ORM
   - Commits: *Pending*
   - Time: 0h
   

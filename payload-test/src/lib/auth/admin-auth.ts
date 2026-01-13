@@ -10,8 +10,6 @@ export async function verifyAdminAuth(request: NextRequest): Promise<{ authorize
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return { authorized: false, error: 'No authorization token provided' }
     }
-
-    const token = authHeader.substring(7)
     
     const user = await payload.auth({ headers: request.headers })
     
@@ -23,7 +21,7 @@ export async function verifyAdminAuth(request: NextRequest): Promise<{ authorize
       return { authorized: false, error: 'Insufficient permissions' }
     }
 
-    return { authorized: true, userId: user.user.id }
+    return { authorized: true, userId: String(user.user.id) }
   } catch (error) {
     console.error('Admin auth verification error:', error)
     return { authorized: false, error: 'Authentication failed' }

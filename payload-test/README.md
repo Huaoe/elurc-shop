@@ -28,56 +28,56 @@ An organic grocery e-commerce platform from Bretaigne, France, accepting ELURC c
 - ✅ **Story 1-5:** Prisma database schema and client
 - ✅ **Story 1-6:** PayloadCMS configuration with PostgreSQL
 
-### Phase 2: Product Catalog 🚧 (In Progress)
-**Status:** In Progress - Jan 13, 2026
+### Phase 2: Product Catalog ✅ (Completed)
+**Status:** Complete - Jan 20, 2026
 
-- ⚠️ **Story 2-1:** PayloadCMS Product Schema (needs collection fixes)
-- 📋 **Story 2-2:** Product listing page
-- 📋 **Story 2-3:** Product detail page
-- 📋 **Story 2-4:** Product card component
-- 📋 **Story 2-5:** Category navigation
-- 📋 **Story 2-6:** Stock status indicators
+- ✅ **Story 2-1:** PayloadCMS Product Schema
+- ✅ **Story 2-2:** Product listing page
+- ✅ **Story 2-3:** Product detail page
+- ✅ **Story 2-4:** Product card component
+- ✅ **Story 2-5:** Category navigation (Fresh/Dry)
+- ✅ **Story 2-6:** Stock status indicators
 
-### Phase 3: Shopping Cart & Wallet 📋 (Planned)
-**Status:** Backlog
+### Phase 3: Shopping Cart & Wallet ✅ (Completed)
+**Status:** Complete - Jan 20, 2026
 
-- 📋 **Story 3-1:** Cart state management (Zustand)
-- 📋 **Story 3-2:** Shopping cart page
-- 📋 **Story 3-3:** Add to cart functionality
-- 📋 **Story 3-4:** Quantity controls
-- 📋 **Story 3-5:** Phantom wallet integration
-- 📋 **Story 3-6:** Wallet connection UI
+- ✅ **Story 3-1:** Cart state management (Zustand)
+- ✅ **Story 3-2:** Shopping cart page with item management
+- ✅ **Story 3-3:** Add to cart functionality
+- ✅ **Story 3-4:** Quantity controls with validation
+- ✅ **Story 3-5:** Phantom wallet integration
+- ✅ **Story 3-6:** Wallet connection UI
 
-### Phase 4: Checkout & Payment 📋 (Planned)
-**Status:** Backlog
+### Phase 4: Checkout & Payment ✅ (Completed)
+**Status:** Complete - Jan 20, 2026
 
-- 📋 **Story 4-1:** Checkout flow
-- 📋 **Story 4-2:** Shipping address form
-- 📋 **Story 4-3:** QR code generation for payments
-- 📋 **Story 4-4:** Payment monitoring service
-- 📋 **Story 4-5:** Solana transaction validation
-- 📋 **Story 4-6:** Order confirmation page
-- 📋 **Story 4-7:** Email notifications (Resend)
+- ✅ **Story 4-1:** Checkout flow with validation
+- ✅ **Story 4-2:** Shipping address form
+- ✅ **Story 4-3:** QR code generation for payments
+- ✅ **Story 4-4:** Payment monitoring service
+- ✅ **Story 4-5:** Solana transaction validation
+- ✅ **Story 4-6:** Order confirmation page
+- ✅ **Story 4-7:** Email notifications (React Email)
 
-### Phase 5: Admin Panel 📋 (Planned)
-**Status:** Backlog
+### Phase 5: Admin Panel ✅ (Completed)
+**Status:** Complete - Jan 20, 2026
 
-- 📋 **Story 5-1:** Admin authentication
-- 📋 **Story 5-2:** Product management CRUD
-- 📋 **Story 5-3:** Order management dashboard
-- 📋 **Story 5-4:** Order details view
-- 📋 **Story 5-5:** Fulfillment actions
-- 📋 **Story 5-6:** Transaction history
+- ✅ **Story 5-1:** Admin authentication via PayloadCMS
+- ✅ **Story 5-2:** Product management CRUD
+- ✅ **Story 5-3:** Order management dashboard
+- ✅ **Story 5-4:** Order details view with full tracking
+- ✅ **Story 5-5:** Fulfillment actions and status updates
+- ✅ **Story 5-6:** Transaction history and refund tracking
 
-### Phase 6: Edge Cases & Polish 📋 (Planned)
-**Status:** Backlog
+### Phase 6: Edge Cases & Polish ✅ (Completed)
+**Status:** Complete - Jan 20, 2026
 
-- 📋 **Story 6-1:** Overpayment/underpayment handling
-- 📋 **Story 6-2:** Refund interface
-- 📋 **Story 6-3:** Payment timeout handling
-- 📋 **Story 6-4:** Error states and messages
-- 📋 **Story 6-5:** Loading states
-- 📋 **Story 6-6:** Accessibility audit (WCAG 2.1 AA)
+- ✅ **Story 6-1:** Overpayment/underpayment detection & handling
+- ✅ **Story 6-2:** Refund interface and processing
+- ✅ **Story 6-3:** Payment timeout handling
+- ✅ **Story 6-4:** Error states and messages
+- ✅ **Story 6-5:** Loading states with skeletons
+- ✅ **Story 6-6:** Order history by wallet address
 
 ## 🚀 Quick Start
 
@@ -139,6 +139,19 @@ An organic grocery e-commerce platform from Bretaigne, France, accepting ELURC c
 - **API:** `http://localhost:3000/api`
 - **GraphQL:** `http://localhost:3000/api/graphql`
 
+### Key Pages
+
+- **Home:** `/` - Hero, featured categories, value propositions
+- **Products:** `/products` - All products listing
+- **Category Pages:** `/products/fresh`, `/products/dry`
+- **Product Detail:** `/products/[slug]`
+- **Cart:** `/cart` - Shopping cart management
+- **Checkout:** `/checkout` - Payment flow with QR code
+- **Order Confirmation:** `/order-confirmation`
+- **Order History:** `/orders` - View past orders by wallet
+- **Order Details:** `/orders/[orderId]` - Track order status
+- **Design System:** `/design-system` - Component showcase
+
 ## 📁 Project Structure
 
 ```
@@ -148,24 +161,38 @@ payload-test/
 ├── src/
 │   ├── app/
 │   │   ├── (frontend)/            # Public-facing pages
-│   │   │   ├── layout.tsx         # Root layout
+│   │   │   ├── layout.tsx         # Root layout with wallet provider
 │   │   │   ├── page.tsx           # Home page
+│   │   │   ├── products/          # Product listing & detail pages
+│   │   │   ├── cart/              # Shopping cart page
+│   │   │   ├── checkout/          # Checkout flow
+│   │   │   ├── orders/            # Order history & details
+│   │   │   ├── order-confirmation/ # Order confirmation page
 │   │   │   └── globals.css        # Tailwind v4 config
-│   │   └── (payload)/             # Payload admin routes
+│   │   ├── (payload)/             # Payload admin routes
+│   │   └── api/                   # API routes
+│   │       ├── orders/            # Order management APIs
+│   │       ├── payment/           # Payment processing
+│   │       └── email/             # Email notifications
 │   ├── collections/               # Payload collections
 │   │   ├── Users.ts               # Admin users
 │   │   ├── Media.ts               # Image uploads
 │   │   ├── Products.ts            # Product catalog
-│   │   └── Categories.ts          # Product categories
+│   │   ├── Categories.ts          # Product categories
+│   │   ├── Orders.ts              # Order management
+│   │   └── Refunds.ts             # Refund processing
 │   ├── components/
 │   │   ├── ui/                    # Shadcn UI components
-│   │   ├── layout/                # Layout components
+│   │   ├── layout/                # Layout components (Header, Footer)
 │   │   ├── product/               # Product components
+│   │   ├── features/              # Feature components (cart, checkout, etc.)
+│   │   ├── providers/             # Context providers (Wallet, Theme)
 │   │   ├── ComponentShowcase.tsx  # Design system demo
 │   │   └── DesignTokenTest.tsx    # Token visualization
 │   ├── lib/
 │   │   ├── utils.ts               # Utility functions
-│   │   └── prisma.ts              # Prisma client
+│   │   ├── prisma.ts              # Prisma client
+│   │   └── store/                 # Zustand stores (cart)
 │   └── payload.config.ts          # Payload configuration
 ├── components.json                # Shadcn UI config
 ├── postcss.config.mjs             # PostCSS config
@@ -198,10 +225,12 @@ payload-test/
 
 ### Collections
 
-- **Users:** Admin authentication
-- **Media:** Image uploads with automatic resizing
-- **Categories:** Product categorization (Fresh, Dry)
-- **Products:** Product catalog with pricing, inventory, images
+- **Users:** Admin authentication with role-based access control
+- **Media:** Image uploads with automatic resizing via Sharp
+- **Categories:** Product categorization (Fresh, Dry) with slugs
+- **Products:** Full product catalog with pricing, inventory, images, and relationships
+- **Orders:** Complete order management with status tracking, payment info, and fulfillment
+- **Refunds:** Refund processing with transaction tracking and admin notes
 
 ### Key Fields
 
@@ -211,6 +240,23 @@ payload-test/
 - `stock` (Int) - Inventory quantity
 - `in_stock` (Boolean) - Availability status
 - `images` (Array) - Product images
+- `category` (Relationship) - Product category
+
+**Orders:**
+- `orderNumber` (String) - Unique order identifier
+- `status` (Select) - Order status (pending, paid, fulfilled, etc.)
+- `items` (Array) - Order items with product relationships
+- `shippingAddress` (Group) - Customer shipping details
+- `transactionSignature` (String) - Solana transaction hash
+- `paymentDiscrepancy` (Group) - Overpayment/underpayment handling
+- `statusHistory` (Array) - Complete audit trail
+
+**Refunds:**
+- `refundNumber` (String) - Unique refund identifier
+- `order` (Relationship) - Associated order
+- `amount` (Number) - Refund amount in ELURC
+- `status` (Select) - Refund status
+- `transactionSignature` (String) - Refund transaction hash
 
 ## 📝 Available Scripts
 
@@ -258,14 +304,19 @@ yarn lint             # Run ESLint
 - **Payload Rules:** `AGENTS.md`
 - **Story Details:** `_bmad-output/implementation-artifacts/`
 
-## 🐛 Known Issues
+## � API Routes
 
-1. **Collection Slugs:** Products/Categories use `cms_*` prefix (needs fixing)
-2. **Missing Hooks:** Slug auto-generation not implemented
-3. **Access Control:** Collections need proper permissions
-4. **Admin Config:** Missing display settings for admin panel
+### Public APIs
+- `GET /api/orders/history?wallet={address}` - Fetch order history by wallet
+- `GET /api/orders/[id]` - Get order details
+- `POST /api/orders/create` - Create new order
+- `POST /api/payment/verify` - Verify Solana transaction
+- `POST /api/email/order-confirmation` - Send order confirmation email
 
-See `SETUP-STATUS.md` for detailed fixes.
+### Admin APIs (Protected)
+- Order management via PayloadCMS admin panel
+- Refund processing via PayloadCMS admin panel
+- Product/Category CRUD via PayloadCMS admin panel
 
 ## 🤝 Contributing
 
@@ -285,6 +336,6 @@ MIT
 
 ---
 
-**Last Updated:** January 13, 2026  
-**Current Sprint:** Epic 2 - Product Catalog  
-**Next Milestone:** Complete product listing and detail pages
+**Last Updated:** January 20, 2026  
+**Current Status:** All core features complete  
+**Next Steps:** Testing, deployment preparation, and production optimization

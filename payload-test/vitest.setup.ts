@@ -1,4 +1,2 @@
-// Any setup scripts you might need go here
-
-// Load .env files
+import '@testing-library/jest-dom/vitest'
 import 'dotenv/config'

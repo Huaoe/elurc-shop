@@ -6,6 +6,10 @@ export const Products: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'price_elurc', 'stock', 'in_stock'],
     group: 'Catalog',
+    description: 'Manage your product catalog with e-commerce features',
+    components: {
+      beforeList: ['@/components/admin/ProductsStats'],
+    },
   },
   dbName: 'cms_products',
   access: {

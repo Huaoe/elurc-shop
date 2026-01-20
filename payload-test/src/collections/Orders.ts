@@ -7,9 +7,13 @@ export const Orders: CollectionConfig = {
     useAsTitle: 'orderNumber',
     defaultColumns: ['orderNumber', 'status', 'customerEmail', 'amountElurc', 'createdAt'],
     group: 'Commerce',
+    description: 'Manage customer orders with e-commerce workflow',
     listSearchableFields: ['orderNumber', 'customerEmail', 'customerWallet', 'transactionSignature'],
     pagination: {
       defaultLimit: 20,
+    },
+    components: {
+      beforeList: ['@/components/admin/OrdersStats'],
     },
   },
   access: {

@@ -211,6 +211,8 @@ export interface CmsCategory {
   createdAt: string;
 }
 /**
+ * Manage your product catalog with e-commerce features
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "cms_products".
  */
@@ -250,6 +252,8 @@ export interface CmsProduct {
   createdAt: string;
 }
 /**
+ * Manage customer orders with e-commerce workflow
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders".
  */

@@ -17,7 +17,9 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "yarn run test:int && yarn run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" yarn exec playwright test",
-    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "test:a11y": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/accessibility-audit.ts",
+    "audit:a11y": "yarn test:a11y"
   },
   "dependencies": {
     "@faceless-ui/modal": "^3.0.0",
@@ -70,10 +72,14 @@
     "zustand": "^5.0.10"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
     "@playwright/test": "1.56.1",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "16.3.0",
     "@types/node": "^22.5.4",
+    "axe-core": "^4.10.2",
+    "jest-axe": "^9.0.0",
     "@types/react": "19.2.1",
     "@types/react-dom": "19.2.1",
     "@vitejs/plugin-react": "4.5.2",

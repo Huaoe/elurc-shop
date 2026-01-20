@@ -5,6 +5,7 @@ import { Header } from "./Header"
 import { Navigation } from "./Navigation"
 import { Footer } from "./Footer"
 import { useCart } from "@/hooks/useCart"
+import { Toaster } from "@/components/ui/sonner"
 
 interface LayoutWrapperProps {
   children: React.ReactNode
@@ -32,6 +33,7 @@ export const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
       />
       <main className="min-h-screen">{children}</main>
       <Footer />
+      <Toaster />
     </>
   )
 }

@@ -1,6 +1,6 @@
 # Story 6.6: Accessibility Audit
 
-Status: ready-for-dev
+Status: in-progress
 
 ## Story
 
